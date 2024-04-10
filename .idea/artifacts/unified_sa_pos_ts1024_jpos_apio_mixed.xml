@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="unified-sa-pos_ts1024-jpos-apio-mixed">
+    <output-path>$PROJECT_DIR$/out/artifacts/unified_sa_pos_ts1024_jpos_apio_mixed</output-path>
+    <root id="archive" name="unified-sa-pos_ts1024-jpos-apio-mixed.jar">
+      <element id="module-output" name="unified-sa-pos_ts1024-jpos-apio-mixed" />
+      <element id="module-output" name="unified-sa-pos" />
+      <element id="module-output" name="unified-sa-pos_ts1024" />
+    </root>
+  </artifact>
+</component>

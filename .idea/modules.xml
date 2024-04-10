@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/unified-sa-pos.iml" filepath="$PROJECT_DIR$/unified-sa-pos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java/ts1024/unified-sa-pos_ts1024.iml" filepath="$PROJECT_DIR$/java/ts1024/unified-sa-pos_ts1024.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java/apio/unified-sa-pos_ts1024-apio.iml" filepath="$PROJECT_DIR$/java/apio/unified-sa-pos_ts1024-apio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java/jpos-apio-mixed/unified-sa-pos_ts1024-jpos-apio-mixed.iml" filepath="$PROJECT_DIR$/java/jpos-apio-mixed/unified-sa-pos_ts1024-jpos-apio-mixed.iml" />
+    </modules>
+  </component>
+</project>

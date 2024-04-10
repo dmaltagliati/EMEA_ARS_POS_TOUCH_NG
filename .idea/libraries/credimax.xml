@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="credimax">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/credimax" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/lib/credimax" />
+    </NATIVE>
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/credimax" recursive="false" />
+  </library>
+</component>

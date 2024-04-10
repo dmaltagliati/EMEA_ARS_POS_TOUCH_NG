@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="alshaya">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/alshaya/ECR_1_0_6 alshaya.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/alshaya/ECRSIMulator - ALSHAYA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/alshaya/RXTXcomm.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

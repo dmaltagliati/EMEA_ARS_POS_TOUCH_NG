@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CMAX_Wrapper_x86 (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/credimax/CMAX_Wrapper_x86.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

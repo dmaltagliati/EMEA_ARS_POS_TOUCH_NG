@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Spinneys" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="com.ncr.GdPos" />
+    <module name="unified-sa-pos_ts1024" />
+    <option name="VM_PARAMETERS" value="-Dfile.encoding=Cp1256 -Djava.library.path=c:\gd90_spinneys;&quot;C:\Program Files\NCR\Digital Promotions&quot;;&quot;C:\Program Files\NCR\NCR JavaPOS&quot;;&quot;C:\Program Files\NCR\Retail&quot;" />
+    <option name="WORKING_DIRECTORY" value="C:/gd90_spinneys" />
+    <RunnerSettings RunnerId="Debug with VisualVM">
+      <option name="visualVMId" value="85418238052500" />
+    </RunnerSettings>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

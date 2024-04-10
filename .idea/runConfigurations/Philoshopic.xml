@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Philoshopic" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.ncr.GdPos" />
+    <module name="unified-sa-pos_d800" />
+    <option name="VM_PARAMETERS" value="-Dfile.encoding=Cp1256 -Djava.library.path=c:\gd90 -Dcom.sun.net.ssl.checkRevocation=false" />
+    <option name="WORKING_DIRECTORY" value="c:/gd90" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

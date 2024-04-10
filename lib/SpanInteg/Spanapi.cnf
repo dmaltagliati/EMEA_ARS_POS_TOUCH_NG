@@ -1,0 +1,26 @@
+#
+# Spanapi configuration file.
+# This is mostly being used for setting connection parameters and application settings
+#
+[Connection]
+active_connection = SerialConnection		# Active Connection
+
+[SerialConnection]
+Port = 9				# COM Port Number.	
+						# default:1			values	from 1 to 4
+						
+Baud rate = 9600		# default:9600		values	110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 	
+						#							38400, 56000, 57600, 115200, 128000, 256000
+						
+Parity = 0				# default:0[None] 	values	1[Odd], 2[Even], 3[Mark], 4[Space] or 0[None]
+Data bits = 8			# default:8			values	from 4 to 8
+Stop bits = 0			# default:0			values	0, 1 or 2
+Flow control = 0		# default:0[None]	values	4[XON/XOFF], 2[DTR/DSR], 1[RTS/CTS] or 0[None]
+
+[TcpConnection]
+HostTcpIP = 192.168.8.100	# Host TCP IP Address
+TcpPort = 9999				# Host TCP Port Number
+
+[Logging]
+EnableLogging = 1		# Enable/Disable Logging
+						# default:0[None]	values 1[Enable] or 0[Disable]
