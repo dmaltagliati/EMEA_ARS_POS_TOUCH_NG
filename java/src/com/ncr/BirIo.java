@@ -33,7 +33,7 @@ abstract class BirIo extends Basis {
 			GdLabel lbl = panel.picture;
 			lbl.setText(null);
 			lbl.setImage(null);
-			lbl.prepareImage(lbl.image = DevIo.biom.dataRAW, lbl);
+			//lbl.prepareImage(lbl.image = DevIo.biom.dataRAW, lbl);
 			if (panel.clearLink(Mnemo.getInfo(40), 0x03) < 2)
 				return ERROR;
 		}

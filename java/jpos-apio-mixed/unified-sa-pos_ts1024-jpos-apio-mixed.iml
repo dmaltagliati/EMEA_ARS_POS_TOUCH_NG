@@ -11,7 +11,6 @@
     <orderEntry type="library" name="RXTXcomm" level="project" />
     <orderEntry type="library" name="scannerSim" level="project" />
     <orderEntry type="library" name="libs" level="project" />
-    <orderEntry type="module" module-name="unified-sa-pos_ts1024" />
     <orderEntry type="library" name="apex" level="project" />
     <orderEntry type="library" name="credimax" level="project" />
     <orderEntry type="library" name="alhamrani" level="project" />

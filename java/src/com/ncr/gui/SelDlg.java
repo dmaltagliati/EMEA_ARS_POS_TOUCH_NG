@@ -21,6 +21,7 @@ import com.ncr.UtilLog4j;
 
 public class SelDlg extends Modal {
 
+    public boolean sorted = false;
     /**
      *
      */

@@ -439,9 +439,11 @@ abstract class Match extends Action {
 			if (f.exists()) {
 				input.init(0x00, 2, 2, 0);
 				TchDlg dlg = new TchDlg(plu_tbl[ind]);
-				dlg.area.setImage(f);
+				//dlg.area.setImage(f);
+				dlg.area.setImage("gif", f.getName() + ".GIF");
 				dlg.show("TCH");
-				dlg.area.setPicture(null);
+
+				//dlg.area.setPicture(null);
 				if (dlg.code > 0)
 					return dlg.code;
 			} else {
@@ -459,8 +461,9 @@ abstract class Match extends Action {
 					} catch (NumberFormatException e) {
 						lREF.error(e, false);
 					}
-				if (dlg.list.getItemCount() < 1)
-					return 7;
+
+			//	if (dlg.list.getItemCount() < 1)
+			//		return 7;
 				dlg.show("REF");
 				if (dlg.code > 0)
 					return dlg.code;
@@ -586,8 +589,8 @@ abstract class Match extends Action {
 				String key = lRCD.scan(2);
 				dlg.add(11, key, " " + lRCD.skip(4).scan(20));
 			}
-			if (dlg.list.getItemCount() < 1)
-				return ERROR;
+			//if (dlg.list.getItemCount() < 1)
+			//	return ERROR;
 			input.prompt = Mnemo.getText(12);
 			input.init(0x00, 2, 2, 0);
 			dlg.show("LBS");
@@ -713,10 +716,10 @@ abstract class Match extends Action {
 	}
 
 	static void lb_add(SelDlg dlg, int key, int sel, String text) {
-		int cnt = dlg.list.getItemCount();
+	//	int cnt = dlg.list.getItemCount();
 		dlg.add(10, editKey(key, 4), " " + text);
-		if (cnt < 1 || key == sel)
-			dlg.list.select(cnt);
+	//	if (cnt < 1 || key == sel)
+	//		dlg.list.select(cnt);
 	}
 
 	static int lb_show(int type, int key, int sel) {
@@ -777,8 +780,8 @@ abstract class Match extends Action {
 					lb_add(dlg, dlu.dpt_nbr, sel, dlu.text);
 				}
 			}
-		if (dlg.list.getItemCount() < 1)
-			return ERROR;
+		//if (dlg.list.getItemCount() < 1)
+		//	return ERROR;
 		panel.display(1, text);
 		panel.dspPicture(bmap + editKey(key, 4));
 		input.prompt = Mnemo.getText(type);

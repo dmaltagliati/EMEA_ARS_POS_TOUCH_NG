@@ -1,13 +1,8 @@
 package com.ncr.notes;
 
-import com.ncr.Action;
-import com.ncr.DevIo;
-import com.ncr.GdElJrn;
-import com.ncr.Mnemo;
+import com.ncr.*;
 import com.ncr.gui.SelDlg;
 import com.ncr.gui.SpyDlg;
-
-import java.io.*;
 
 public abstract class Notes extends Action {
 	static int ack_note(int rec) {
@@ -90,36 +85,79 @@ public abstract class Notes extends Action {
 		int pos, size = 20;
 		String txt;
 
-		if (mon.adv_rec < 1)
+		if (mon.adv_rec < 1) {
 			mon.adv_dsp = 60;
+		}
 		if ((pos = mon.adv_dsp) == 60) {
 			if (ctl.ckr_nbr < 1 || ctl.ckr_nbr > 799 || ctl.mode > 0) {
-				txt = Mnemo.getInfo(ctl.mode > 0 ? ctl.mode + 17 : 0);
+				txt = GdPos.panel.mnemo.getInfo(ctl.mode > 0 ? ctl.mode + 17 : 0);
 				mon.adv_rec = 16;
 				pos = 40 - size;
 			} else {
-				if (mon.adv_rec > 15)
+				if (mon.adv_rec > 15) {
 					mon.adv_rec = 0;
-				if ((txt = getMessTxt(mon.adv_rec++)) == null)
+				}
+				if ((txt = mess_txt[mon.adv_rec++]) == null) {
 					return;
+				}
 				pos = 20 - size;
 			}
 			mon.adv_txt = rightFill(editTxt(txt, 59), 79, ' ');
-			//panel.cid.hotMaint();
 		}
-
-		if (pos == 40)
+		if (pos == 40) {
 			if (mon.adv_rec < 16) {
-				if ((txt = getMessTxt(mon.adv_rec)) != null) {
+				if ((txt = mess_txt[mon.adv_rec]) != null) {
 					mon.adv_rec++;
 					pos = 0;
 					mon.adv_txt = mon.adv_txt.substring(40, 59) + rightFill(txt, 60, ' ');
 				}
 			}
-		txt = mon.adv_txt.substring(pos, pos + size);
-		DevIo.cusDisplay(0, txt);
-		panel.cid.display(0, txt);
-		mon.adv_dsp = pos + 1;
+		}
+		// COP-ENH-C5976 #D Begin
+		// DevIo.cusDisplay(1, mon.adv_txt.substring(pos, pos + size));
+		// mon.adv_dsp = pos + 1;
+		// COP-ENH-C5976 #D End
+		advertizeScroll(pos, size); // COP-ENH-C5976#A
+
+	}
+
+	static int advertizeTypeScroll = 0; // ENH-C5976#A
+
+	static void advertizeScroll(int pos, int size) {
+		int type = advertizeTypeScroll;
+
+		switch (type) {
+			case 1:
+				if ((mon.tick % 2) == 0) {
+					DevIo.cusDisplay(1, mon.adv_txt.substring(pos, pos + size));
+					mon.adv_dsp = pos + 1;
+				}
+				break;
+
+			case 2:
+				if ((mon.tick % 2) == 0) {
+					DevIo.cusDisplay(1, mon.adv_txt.substring(pos, pos + size));
+					mon.adv_dsp = pos + 1;
+				} else {
+					DevIo.cusDisplay(1, editTxt("", 20));
+				}
+
+				break;
+
+			case 3:
+				DevIo.cusDisplay(1, editTxt("", 20));
+				DevIo.cusDisplay(1, mon.adv_txt.substring(pos, pos + size));
+				mon.adv_dsp = pos + 1;
+				break;
+
+			default:
+				DevIo.cusDisplay(1, mon.adv_txt.substring(pos, pos + size));
+				mon.adv_dsp = pos + 1;
+				break;
+		}
+		// STD-ENH-ASR31CID-SBE#A BEG
+		GdPos.panel.cid.display(0, mon.adv_txt.substring(pos, pos + size));
+		// STD-ENH-ASR31CID-SBE#A END
 	}
 
 	public static void watch(int rec) {

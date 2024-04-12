@@ -42,12 +42,12 @@ public class ScanDlg extends Modal {
 			return;
 		}
 
-		if (strategy != null) {
-			int ret = strategy.exec();
-			if (ret > 0) {
-				return;
-			}
-		}
+//		if (strategy != null) {
+//			int ret = strategy.exec();
+//			if (ret > 0) {
+//				return;
+//			}
+//		}
 		// MMS-RT#A END
 
 		UtilLog4j.logInformation(this.getClass(), "SCANNED <" + Action.input.pb + ">");

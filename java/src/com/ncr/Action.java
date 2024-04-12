@@ -80,12 +80,12 @@ public abstract class Action extends Basis {
 
 		timeFormat = trl_line.substring(20, 35);
 		ctl.setDatim();
-		panel.journal.init(lJRN, options[O_ElJrn]);
-		panel.trxView.init(options[O_ElJrn]);
-		panel.jrnPicture(project);
-		panel.cid.init();
-		if (((input.optAuth = options[O_Autho]) & 2) < 2)
-			panel.dspStatus(2, null, true, false);
+//		panel.journal.init(lJRN, options[O_ElJrn]);
+//		panel.trxView.init(options[O_ElJrn]);
+//		panel.jrnPicture(project);
+//		panel.cid.init();
+//		if (((input.optAuth = options[O_Autho]) & 2) < 2)
+//			panel.dspStatus(2, null, true, false);
 		dspLine.init("PointOfSales Program");
 		DevIo.start();
 		netio.start(lFile, version[1], ctl.zero);
@@ -361,24 +361,39 @@ public abstract class Action extends Basis {
 	 * @param onDuty
 	 *            true = ready state, false = closed state
 	 ***************************************************************************/
+//	static void showHeader(boolean onDuty) {
+//		idsLine.init(Mnemo.getText(3)).upto(17, editKey(ctl.reg_nbr, 3)).show(3);
+//		if (ctl.ckr_nbr < 1)
+//			idsLine.init(Mnemo.getText(11)).upto(17, editNum(ctl.sto_nbr, 4));
+//		else
+//			idsLine.init(Mnemo.getText(ctl.ckr_nbr < 800 ? 1 : 2)).upto(17, editNum(ctl.ckr_nbr, 3));
+//		idsLine.show(4);
+//		panel.display(5, null);
+//		mon.clock = 60;
+//		mon.opd_sts = 0;
+//		dspBmap = "CKR_" + editNum(ctl.ckr_nbr, 4);
+//		panel.dspSymbol(onDuty ? tnd[0].symbol : "");
+//		panel.journal.setScrollbar(onDuty);
+//		panel.cid.clear();
+//		showAutho();
+//		if (!onDuty) {
+//			cusLine.init(Mnemo.getText(3)).upto(20, editKey(ctl.reg_nbr, 3)).show(11);
+//		}
+//	}
+
 	static void showHeader(boolean onDuty) {
-		idsLine.init(Mnemo.getText(3)).upto(17, editKey(ctl.reg_nbr, 3)).show(3);
-		if (ctl.ckr_nbr < 1)
-			idsLine.init(Mnemo.getText(11)).upto(17, editNum(ctl.sto_nbr, 4));
-		else
-			idsLine.init(Mnemo.getText(ctl.ckr_nbr < 800 ? 1 : 2)).upto(17, editNum(ctl.ckr_nbr, 3));
-		idsLine.show(4);
-		panel.display(5, null);
-		mon.clock = 60;
-		mon.opd_sts = 0;
-		dspBmap = "CKR_" + editNum(ctl.ckr_nbr, 4);
-		panel.dspSymbol(onDuty ? tnd[0].symbol : "");
-		panel.journal.setScrollbar(onDuty);
-		panel.cid.clear();
-		showAutho();
+
+		idsLine.init(GdPos.panel.mnemo.getText(3)).upto(17, editKey(ctl.reg_nbr, 3)).show(3);
 		if (!onDuty) {
-			cusLine.init(Mnemo.getText(3)).upto(20, editKey(ctl.reg_nbr, 3)).show(11);
+			idsLine.init(GdPos.panel.mnemo.getText(11)).upto(17, editNum(ctl.sto_nbr, 4));
+		} else {
+			idsLine.init(GdPos.panel.mnemo.getText(ctl.ckr_nbr < 800 ? 1 : 2)).upto(17, editNum(ctl.ckr_nbr, 3));
 		}
+		idsLine.show(4);
+		mon.clock = 60;
+		dspBmap = "CKR_" + editNum(ctl.ckr_nbr, 4);
+		GdPos.panel.dspSymbol(onDuty ? tnd[0].symbol : "");
+
 	}
 
 	/***************************************************************************
@@ -499,17 +514,17 @@ public abstract class Action extends Basis {
 	 *            four last digits of file access key
 	 ***************************************************************************/
 	public static void showShort(String id, int nbr) {
+
 		String txt1 = null, txt2 = null;
 
-		dspSins = id + editNum(nbr, 4);
-		if (lSIN.find(dspSins) > 0) {
+		if (lSIN.find(id + editNum(nbr, 4)) > 0) {
 			txt1 = lSIN.skip(8).scan(40);
 			txt2 = lSIN.scan(40);
 		}
-		panel.dspShort(0, txt1);
-		panel.dspShort(1, txt2);
-	}
+		GdPos.panel.dspShort(0, txt1);
+		GdPos.panel.dspShort(1, txt2);
 
+	}
 	/***************************************************************************
 	 * show versions and instructions above electronic journal
 	 ***************************************************************************/

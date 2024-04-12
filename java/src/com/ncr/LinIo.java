@@ -393,7 +393,8 @@ public class LinIo extends FmtIo {
 	 *            window number (0 - 9 operator, 10 - 13 customer)
 	 ***************************************************************************/
     public void show(int area) {
-		gui.display(area, toString());
+		//gui.display(area, toString());
+		GdPos.panel.display(area, toString());
 	}
 
 	/***************************************************************************

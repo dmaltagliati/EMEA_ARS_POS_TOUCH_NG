@@ -350,6 +350,12 @@ public class GdLabel extends JLabel {
 		this.align = align;
 	}
 
+//	public void setPicture(String name) {
+//		if (name == null)
+//			setImage(null);
+//		else
+//			setImage(Config.localFile("gif", name + ".GIF"));
+//	}
 
 //	public void paint(Graphics g) {
 //		Dimension d = getSize();

@@ -278,7 +278,7 @@ public class GdBindawood extends Action {
         cus.setBranch(Integer.parseInt(loyaltyService.getBranch()));
     }
 
-    public void initialize() {
+    public void initialize_() {
         if (loyaltyService.isLoyaltyEnabled() && !loyaltyActive) {
             loyaltyActive = loyaltyService.initialize(tnd[0].dec);
             if (!loyaltyActive) {

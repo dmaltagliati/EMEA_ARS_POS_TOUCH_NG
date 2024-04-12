@@ -1391,15 +1391,41 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
     }
 
     public void display(int line, String data) {
+
+        UtilLog4j.logInformation(this.getClass(), line + ", " + data);
+        // MMS-TOUCHMENU#A BEGIN
+        if (line == 1 || line == 2) {
+            if (panel.touchMenu != null) {
+                panel.touchMenu.setDisplayLine(line, data);
+            }
+        }
+        // MMS-TOUCHMENU#A END
+        if (line == 1) {
+            GdPos.panel.updateDiplayTopText(data);
+        } else if (line == 2) {
+            GdPos.panel.updateDiplayBottomText(data);
+        }
         if (line > 9) {
             Action.cusDisplay(line - 10, data);
             return;
         }
-        if (line == 3)
-            pnlCard.toFront(0); /* first card = ids */
+        // if (line == 3) {
+        // ((CardLayout) pnlCard.getLayout()).first(pnlCard);
+        // }
         dspArea[line].setText(data);
-        if (line > 0 && line < 3)
+        if (line == 0) {
+            // if (Struc.tra.mode >= Struc.M_GROSS) { //MMS-MANTIS-17114#D
+            if (Struc.tra.mode >= Struc.M_GROSS || Struc.tra.code == 9 || Struc.tra.code == 11) { // MMS-MANTIS-17114#A
+                GdPos.panel.updateTotalText("Totale: " + Action.editMoney(0, Struc.tra.bal).trim()); // MMS-LOTTERY-VAR1#A
+                if (touchMenu != null && TouchMenuParameters.getInstance().isSelfService()) {
+                    touchMenu.setTotal(Struc.tra.bal);
+                }
+            }
+        }
+        if (line > 0 && line < 3) {
             DevIo.oplDisplay(line - 1, data);
+        }
+
     }
 
     public void dspNotes(int line, String data) {
@@ -1518,6 +1544,43 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
     }
 
     public void feedBack(KeyEvent e) { // System.out.println (e.paramString () + " at " + e.getWhen ());
+    }
+
+    public void updateCassiere(boolean active) {
+        if (labelCassiere != null) {
+            labelCassiere.setAlerted(active);
+        }
+    }
+
+    // MAL-MANTIS-17779#A END
+    public void updateArticlesText() {
+        String text = "";
+        switch (Struc.tra.cnt) {
+            case 0:
+                break;
+            case 1:
+                text = Struc.tra.cnt + " Articolo";
+                break;
+            default:
+                text = Struc.tra.cnt + " Articoli";
+                break;
+        }
+        GdPos.panel.dspArea[6].setText(text);
+    }
+
+    public void updateTotalText(String text) {
+        GdPos.panel.dspArea[7].setText(text);
+        if (existSecondScreen(1)) {
+            GdPos.panel.total2Screen.setText(text);
+        }
+    }
+
+    public void updateDiplayTopText(String text) {
+        GdPos.panel.dspArea[1].setText(text);
+    }
+
+    public void updateDiplayBottomText(String text) {
+        GdPos.panel.dspArea[2].setText(text);
     }
 
     public void smoke(final boolean visible) {
@@ -1647,12 +1710,6 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
         }
     }
     //WINEPTS-CGA#A END
-
-    public void updateCassiere(boolean active) {
-        if (labelCassiere != null) {
-            labelCassiere.setAlerted(active);
-        }
-    }
 
     static JFrame f; // MMS-R10#A
     static JFrame secondf;

@@ -149,10 +149,10 @@ public class GdSigns extends Action {
 		ModDlg dlg = new ModDlg(lCTL.text);
 		msg = Mnemo.getText(lCTL.key < 800 ? 1 : 2);
 		dlg.line[0].setText(msg + "     " + editNum(lCTL.key, 3));
-		if (ctl.date % 10000 == lCTL.age % 10000)
-			dlg.line[2].setPicture("BIRTHDAY");
-		if (dlg.line[2].image == null)
-			dlg.line[2].setText(Mnemo.getText(7) + editNum(lCTL.pers, 8));
+//		if (ctl.date % 10000 == lCTL.age % 10000)
+//			dlg.line[2].setPicture("BIRTHDAY");
+//		if (dlg.line[2].image == null)
+		dlg.line[2].setText(Mnemo.getText(7) + editNum(lCTL.pers, 8));
 		oplToggle(2, lCTL.text);
 		dlg.show("PWD");
 		oplToggle(0, null);
@@ -501,7 +501,7 @@ public class GdSigns extends Action {
 			prtDwide(ELJRN + 3, Mnemo.getInfo(16));
 
 		GdSarawat.getInstance().setCkrClose(false); // SARAWAT-ENH-20150507-CGA#A
-		GdBindawood.getInstance().initialize();
+		GdBindawood.getInstance().initialize_();
 		GdRegis.prt_trailer(2);
 
 		//WINEPTS-CGA#A BEG
