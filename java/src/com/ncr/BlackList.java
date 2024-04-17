@@ -94,7 +94,7 @@ class BlClrDlg extends ClrDlg {
         super(name, type);
 
         Panel additionalInfo = new Panel(new GridLayout(0, 1));
-        additionalInfo.setFont(panel.font60);
+        //additionalInfo.setFont(panel.font60);
         additionalInfo.add(line[0] = new GdLabel(name, GdLabel.STYLE_STATUS));
         additionalInfo.add(Border.around(line[1] = new GdLabel(null, GdLabel.STYLE_RAISED), -3));
         additionalInfo.add(line[2] = new GdLabel(name, GdLabel.STYLE_STATUS));

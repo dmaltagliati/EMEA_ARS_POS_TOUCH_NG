@@ -83,7 +83,9 @@ public abstract class Action extends Basis {
 //		panel.journal.init(lJRN, options[O_ElJrn]);
 //		panel.trxView.init(options[O_ElJrn]);
 //		panel.jrnPicture(project);
+        GdPos.panel.jrnPicture("GdPos");
 //		panel.cid.init();
+ 		GdPos.panel.cid.init();
 //		if (((input.optAuth = options[O_Autho]) & 2) < 2)
 //			panel.dspStatus(2, null, true, false);
 		dspLine.init("PointOfSales Program");
@@ -99,6 +101,7 @@ public abstract class Action extends Basis {
 			BcrIo.initialize();
 			WghIo.initialize(DevIo.scale);
 		}
+		GdPos.panel.splashThread.interrupt();
     }
 
 	// AMZ-2017#BEG

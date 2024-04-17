@@ -8,7 +8,7 @@ public class ModDlg extends Modal {
     public ModDlg(String name) {
         super("PoS Enter Data");
         Panel info = new Panel(new GridLayout(0, 1));
-        info.setFont(panel.font40);
+        //info.setFont(panel.font40);
         info.add(Border.around(line[0] = new GdLabel(null, GdLabel.STYLE_RAISED), -3));
         info.add(line[1] = new GdLabel(name, GdLabel.STYLE_STATUS));
         info.add(Border.around(line[2] = new GdLabel(null, GdLabel.STYLE_RAISED), -3));

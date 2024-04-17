@@ -40,6 +40,7 @@ public class Modal extends JDialog {
 	public IdleLoopThread idleLoopThread = new IdleLoopThread(new Object());
 	private boolean enableScanner = false;
 
+
 	protected JProgressBar automaticClosingProgressBar = new JProgressBar();
 	public Thread automaticClosingThread = new Thread(new Runnable() {
 		public void run() {
@@ -317,4 +318,13 @@ public class Modal extends JDialog {
 	public void itemEcho(int i) {
 	}
 
+	public void press(int key) {
+		UtilLog4j.logInformation(this.getClass(), "key=" + key);
+		char c = (char) (key);
+
+		KeyEvent ke = new KeyEvent(GdPos.panel.modal == null ? GdPos.panel.kbrd : GdPos.panel.modal.getKbrd(),
+				KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, key, c);
+		GdPos.panel.queue.postEvent(ke);
+
+	}
 }

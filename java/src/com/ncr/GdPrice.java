@@ -851,12 +851,12 @@ public class GdPrice extends Action {
 		oplLine.show(2);
 		panel.dspPicture("DPT_" + editKey(itm.dpt_nbr, 4));
 		PluDlg dlg = new PluDlg(Mnemo.getMenu(57));
-		dlg.labl.setBars(input.pb);
+		//dlg.labl.setBars(input.pb);
 		prtLine.init(' ').push('x' + editHex(itm.flag, 2)).push(editTxt(itm.sit, 3) + editTxt(itm.vat, 4))
 				.onto(13, editNum(itm.mmt, 2)).upto(24, editDec(itm.unit, 1) + ' ' + itm.ptyp).skip(2)
 				.push(editNum(itm.link, 4)).skip().push(editHex(itm.flg2, 2) + '-' + editNum(itm.ages, 1)).skip()
 				.push(editKey(itm.dpt_nbr, 4));
-		dlg.data.setText(prtLine.toString(0, 40));
+		dlg.l1.setText(prtLine.toString(0, 40));
 		input.init(0x80, 0, 0, 0);
 		DevIo.oplSignal(15, 1);
 		oplToggle(2, Mnemo.getMenu(57));

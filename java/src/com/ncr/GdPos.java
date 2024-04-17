@@ -57,6 +57,11 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
     public ExecutorCompletitionService executorCompletionService = ExecutorServiceFactory.getExecutorService(); // FLM-SCANNER#A
     // MMS-THREAD#D END
 
+
+    public GdPos() {
+        tick = new Thread(this);
+        tick.setName("IdleLoop");
+    }
     public JFrame frame;
 
     public void setFrame(JFrame frame) {
@@ -101,7 +106,7 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
     public GdLabel stsArea[] = new GdLabel[6];
     GdLabel cusArea[] = new GdLabel[8];
 
-    GdElJrn journal = new GdElJrn(42, 12);
+	GdElJrn journal = null;
     GdLabel picture = new GdLabel(null, 0);
     GdLabel sticker = new GdLabel("   ", GdLabel.STYLE_RAISED);
     GdLabel versionArea[] = new GdLabel[3];
@@ -125,21 +130,9 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
     GdLabel labelUpb = null;
 
 
-    public Font /* 2x20 */ font20, /* head */
-            font40, /* list */
-            font60, /* tiny */
-            font80, /* View */
-            font54;/* vert.gaps */
-    static int fontSize[][] = {{50, 65, 84}, {26, 36, 44}, {17, 22, 29}, {13, 18, 25}, {14, 17, 22},
-            {2, 3, 5}};
-    static int xfntSize[][] = {{48, 61, 79}, {24, 34, 42}, {17, 21, 28}, {15, 20, 25}, {13, 16, 21},
-            {2, 5, 11}};
+
     private SscoPosManager posManager;
 
-    public GdPos() {
-        tick = new Thread(this);
-        tick.setName("IdleLoop");
-    }
 
     private void sscoInitialize() {
         posManager = SscoPosManager.getInstance();
@@ -1390,6 +1383,30 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
     }
 
+    void sequentialInnerVoice(int action) {
+        UtilLog4j.logInformation(this.getClass(), "action = " + Integer.toHexString(action));
+        AWTEvent e;
+
+        if (modal != null) {
+            e = new WindowEvent(modal, WindowEvent.WINDOW_CLOSING);
+            GdPos.panel.queue.postEvent(e);
+            while (true) {
+                if (modal == null)
+                    return;
+            }
+        } else {
+            if (action > 0) {
+                action = Action.input.accept(action);
+                if (action >= 0) {
+                    action = GdPos.panel.eventMain(action);
+                    if (action >= 0) {
+                        GdPos.panel.eventStop(action);
+                    }
+                }
+            }
+        }
+    }
+
     public void display(int line, String data) {
 
         UtilLog4j.logInformation(this.getClass(), line + ", " + data);
@@ -1438,13 +1455,34 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
         sinArea[line].setText(data);
     }
 
+	void dspJournal(boolean append) {
+		jrnPicture(null);
+		journal.view(append);
+	}
+
     public void dspShopper(int line, String data) {
         if (line == 0)
             pnlView.toFront(1); /* first card = shopper */
         cusArea[line].setText(data);
     }
 
+	public void jrnPicture(String name) {
+		journal.setPicture(name);
+		journal.setPicture2Screen(name);
 
+	}
+
+//    public void jrnPicture(String name) {
+//        pnlView.toFront(0); /* first card = journal */
+//        journal.setPicture(name);
+//    }
+	public void jrnPicture2Screen(String name) {
+		if (GdPos.panel.journalTable2Screen != null) {
+			GdPos.panel.journalTable2Screen.clear(JournalTable.MODEL_NEW);
+		}
+		journal.setPicture2Screen(name);
+
+	}
     public void dspPicture(String fileList) {
 
         if (fileList == null || fileList.trim().length() == 0) {
@@ -1525,10 +1563,7 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 //        // STD-ENH-ASR31TRV-SBE#A END
 //    }
 
-    public void jrnPicture(String name) {
-        pnlView.toFront(0); /* first card = journal */
-        journal.setPicture(name);
-    }
+
 
     public void print(int station, String data) {
         if ((station & FmtIo.ELJRN) > 0)
@@ -1545,89 +1580,9 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
     public void feedBack(KeyEvent e) { // System.out.println (e.paramString () + " at " + e.getWhen ());
     }
-
-    public void updateCassiere(boolean active) {
-        if (labelCassiere != null) {
-            labelCassiere.setAlerted(active);
-        }
-    }
-
-    // MAL-MANTIS-17779#A END
-    public void updateArticlesText() {
-        String text = "";
-        switch (Struc.tra.cnt) {
-            case 0:
-                break;
-            case 1:
-                text = Struc.tra.cnt + " Articolo";
-                break;
-            default:
-                text = Struc.tra.cnt + " Articoli";
-                break;
-        }
-        GdPos.panel.dspArea[6].setText(text);
-    }
-
-    public void updateTotalText(String text) {
-        GdPos.panel.dspArea[7].setText(text);
-        if (existSecondScreen(1)) {
-            GdPos.panel.total2Screen.setText(text);
-        }
-    }
-
-    public void updateDiplayTopText(String text) {
-        GdPos.panel.dspArea[1].setText(text);
-    }
-
-    public void updateDiplayBottomText(String text) {
-        GdPos.panel.dspArea[2].setText(text);
-    }
-
-    public void smoke(final boolean visible) {
-        if (GdPos.panel.touchMenu != null && TouchMenuParameters.getInstance().isSelfService()) {
-            GdPos.panel.touchMenu.smokePanel(visible);
-            return;
-        }
-        EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                if (smokePanel != null) {
-                    smokePanel.setVisible(visible);
-                }
-                refreshModals();
-            }
-        });
-
-    }
-    public void status(final String id, final boolean visible) {
-        EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                if (statusPanel != null) {
-                    statusPanel.setVisible(id, visible);
-                }
-            }
-        });
-
-    }
-
-    public static void playBeep() {
-        playSound("touch/beep.wav");
-    }
-
-    public static void playSound(final String url) {
-        if (arsGraphicInterface != null) {
-            SwingUtilities.invokeLater(new Runnable() {
-
-                public void run() {
-                    arsGraphicInterface.playSound(url);
-                }
-            });
-        }
-    }
-    void clearJournal() {
-        journal.clear();
-    }
+	void clearJournal() {
+		journal.clear();
+	}
 
     public static void main(final String[] args) {
 
@@ -1653,63 +1608,6 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
             }
         });
     }
-//	public static void main(String[] args) {
-//		LogManager.getInstance().init();
-//		Frame f = new Frame(PosVersion.shortVersion());
-//		final GdPos panel = new GdPos(f);
-//		Dimension d = Config.frameSize("MainFrame");
-//
-//		if (d.width < 640 || d.width > 1024) {
-//			Config.logConsole(1, null, "screen " + d.width + "x" + d.height);
-//			d.width = 1024;
-//			d.height = 768;
-//		}
-//		Param.init();
-//		EftPluginManager.getInstance().init();
-//		GiftCardPluginManager.getInstance().init();
-//		ZatcaManager.getInstance().init();
-//		BaseSalesEngine.getInstance().init();
-//		PosGPE.Init();
-//		panel.init(d);
-//		panel.startUp();
-//
-//		f.add(panel);
-//		f.setBackground(Color.getColor("COLOR_DESKTOP", SystemColor.desktop));
-//		f.addWindowListener(new WindowAdapter() {
-//			public void windowOpened(WindowEvent e) {
-//				panel.eventInit();
-//			}
-//
-//			public void windowClosing(WindowEvent e) {
-//				panel.eventStop(1);
-//			}
-//		});
-//		f.setSize(d);
-//		f.setLocation(0, 0);
-//		f.setResizable(false);
-//		f.show();
-//		if (!d.equals(f.getSize())) {
-//			f.setSize(d); /* Linux JRE1.3 */
-//			f.validate(); /* second try with real insets */
-//		}
-//		f.toFront(); /* SUN: after early kbrd input */
-//		Config.logConsole(1, null, "window " + d.width + "x" + d.height);
-//		d = panel.getSize();
-//		Config.logConsole(1, null, "client " + d.width + "x" + d.height);
-//
-//		// System.getProperties ().list (System.out);
-//		Config.logConsole(1, "--- VERSION --- ", PosVersion.fullVersion());
-//		ComponentVersion.writeComponentVersion("Pos Application", PosVersion.getDate(), PosVersion.shortVersion() + " base");
-//	}
-
-    //WINEPTS-CGA#A BEG
-    public void updateEpts(boolean active) {
-        if (stsArea[5] != null) {
-            stsArea[5].setText(active ? "WON" : "WOFF");
-            stsArea[5].setAlerted(!active);
-        }
-    }
-    //WINEPTS-CGA#A END
 
     static JFrame f; // MMS-R10#A
     static JFrame secondf;
@@ -1761,7 +1659,7 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
         f = new JFrame(PosVersion.getName());
 
-        PosGPE.Init();
+       // PosGPE.Init();
         if (GdPos.existSecondScreen(1)) {
             secondf = new JFrame("Second JPos++");
             if (GdPos.arsGraphicInterface != null) {
@@ -1879,6 +1777,20 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
     }
 
+	public void showOnScreen(int screen, JFrame frame) {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gd = ge.getScreenDevices();
+		if (screen > -1 && screen < gd.length) {
+			UtilLog4j.logInformation(GdPos.class, "frame location on screen " + screen);
+			frame.setLocation(gd[screen].getDefaultConfiguration().getBounds().x, frame.getY());
+		}
+		// else if (gd.length > 0) {
+		// // frame.setLocation(gd[0].getDefaultConfiguration().getBounds().x, frame.getY());
+		// } else {
+		// // throw new RuntimeException("No Screens Found");
+		// }
+	}
+
     public static boolean existSecondScreen(int screen) {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] gd = ge.getScreenDevices();
@@ -1889,6 +1801,130 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
         UtilLog4j.logInformation(GdPos.class, "screen " + screen + " disabled");
         return false;
     }
+
+    public void updateCassiere(boolean active) {
+        if (labelCassiere != null) {
+            labelCassiere.setAlerted(active);
+        }
+    }
+
+    // MAL-MANTIS-17779#A END
+    public void updateArticlesText() {
+        String text = "";
+        switch (Struc.tra.cnt) {
+            case 0:
+                break;
+            case 1:
+                text = Struc.tra.cnt + " Articolo";
+                break;
+            default:
+                text = Struc.tra.cnt + " Articoli";
+                break;
+        }
+        GdPos.panel.dspArea[6].setText(text);
+    }
+
+    public void updateTotalText(String text) {
+        GdPos.panel.dspArea[7].setText(text);
+        if (existSecondScreen(1)) {
+            GdPos.panel.total2Screen.setText(text);
+        }
+    }
+
+    public void updateDiplayTopText(String text) {
+        GdPos.panel.dspArea[1].setText(text);
+    }
+
+    public void updateDiplayBottomText(String text) {
+        GdPos.panel.dspArea[2].setText(text);
+    }
+
+    public void smoke(final boolean visible) {
+        if (GdPos.panel.touchMenu != null && TouchMenuParameters.getInstance().isSelfService()) {
+            GdPos.panel.touchMenu.smokePanel(visible);
+            return;
+        }
+        EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                if (smokePanel != null) {
+                    smokePanel.setVisible(visible);
+                }
+                refreshModals();
+            }
+        });
+
+    }
+    public void status(final String id, final boolean visible) {
+        EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                if (statusPanel != null) {
+                    statusPanel.setVisible(id, visible);
+                }
+            }
+        });
+
+    }
+
+    public void wait(final boolean visible) {
+
+        if (GdPos.panel.touchMenu != null && (TouchMenuParameters.getInstance().isSelfService()
+                || TouchMenuParameters.getInstance().isPriceVerifier())) {
+            GdPos.panel.touchMenu.waitPanel(visible);
+            return;
+        }
+        EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                if (waitPanel != null) {
+                    waitPanel.setVisible(visible);
+                    UtilLog4j.logDebug(this.getClass(), "Refreshing and Repaint: " + visible);
+                    refreshModals();
+                }
+
+            }
+        });
+    }
+
+    public void splash(final boolean visible) {
+        EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                if (splashPanel != null) {
+                    UtilLog4j.logInformation(this.getClass(), "" + visible);
+                    splashPanel.setVisible(visible);
+                }
+                refreshModals();
+            }
+        });
+    }
+
+    public static void playBeep() {
+        playSound("touch/beep.wav");
+    }
+
+    public static void playSound(final String url) {
+        if (arsGraphicInterface != null) {
+            SwingUtilities.invokeLater(new Runnable() {
+
+                public void run() {
+                    arsGraphicInterface.playSound(url);
+                }
+            });
+        }
+    }
+
+
+    //WINEPTS-CGA#A BEG
+    public void updateEpts(boolean active) {
+        if (stsArea[5] != null) {
+            stsArea[5].setText(active ? "WON" : "WOFF");
+            stsArea[5].setAlerted(!active);
+        }
+    }
+    //WINEPTS-CGA#A END
+
 
     public void setKeyListeners() {
         if (panel.modal != null) {
@@ -1938,6 +1974,30 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
     }
 
+    public void updateServerStatus(int serverStatus) {
+        // EMEA-02017-SBE#A BEG
+        String netstatus = "";
+        if (serverStatus == 1 ) {
+            netstatus = GdPos.panel.mnemo.getText(96 + serverStatus).substring(0, 6).trim();
+        } else {
+            netstatus = Action.netio.lanHost(NetIo.SRV);
+        }
+        // EMEA-02017-SBE#A END
+        stsArea[1].setText(netstatus);
+        stsArea[1].setEnabled(true);
+        switch (serverStatus) {
+            case 1:
+                stsArea[1].setState("OffLine");
+                break;
+            case 2:
+                stsArea[1].setState("OffLineReverse");
+                break;
+            default:
+                stsArea[1].setState("Normal");
+                break;
+        }
+
+    }
     public void startWaitTread() {
         if (waitThreadForced) {
             return;
@@ -1964,87 +2024,5 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
             return;
         }
         GdPos.panel.waitThread.interrupt();
-    }
-
-    public void wait(final boolean visible) {
-
-        if (GdPos.panel.touchMenu != null && (TouchMenuParameters.getInstance().isSelfService()
-                || TouchMenuParameters.getInstance().isPriceVerifier())) {
-            GdPos.panel.touchMenu.waitPanel(visible);
-            return;
-        }
-        EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                if (waitPanel != null) {
-                    waitPanel.setVisible(visible);
-                    UtilLog4j.logDebug(this.getClass(), "Refreshing and Repaint: " + visible);
-                    refreshModals();
-                }
-
-            }
-        });
-    }
-
-    public void splash(final boolean visible) {
-        EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                if (splashPanel != null) {
-                    UtilLog4j.logInformation(this.getClass(), "" + visible);
-                    splashPanel.setVisible(visible);
-                }
-                refreshModals();
-            }
-        });
-    }
-
-    public void updateServerStatus(int serverStatus) {
-        // EMEA-02017-SBE#A BEG
-        String netstatus = "";
-        if (serverStatus == 1 ) {
-            netstatus = GdPos.panel.mnemo.getText(96 + serverStatus).substring(0, 6).trim();
-        } else {
-            netstatus = Action.netio.lanHost(NetIo.SRV);
-        }
-        // EMEA-02017-SBE#A END
-        stsArea[1].setText(netstatus);
-        stsArea[1].setEnabled(true);
-        switch (serverStatus) {
-            case 1:
-                stsArea[1].setState("OffLine");
-                break;
-            case 2:
-                stsArea[1].setState("OffLineReverse");
-                break;
-            default:
-                stsArea[1].setState("Normal");
-                break;
-        }
-
-    }
-
-    void sequentialInnerVoice(int action) {
-        UtilLog4j.logInformation(this.getClass(), "action = " + Integer.toHexString(action));
-        AWTEvent e;
-
-        if (modal != null) {
-            e = new WindowEvent(modal, WindowEvent.WINDOW_CLOSING);
-            GdPos.panel.queue.postEvent(e);
-            while (true) {
-                if (modal == null)
-                    return;
-            }
-        } else {
-            if (action > 0) {
-                action = Action.input.accept(action);
-                if (action >= 0) {
-                    action = GdPos.panel.eventMain(action);
-                    if (action >= 0) {
-                        GdPos.panel.eventStop(action);
-                    }
-                }
-            }
-        }
     }
 }

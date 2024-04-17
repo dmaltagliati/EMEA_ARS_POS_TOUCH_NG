@@ -473,7 +473,8 @@ public class ECommerceManager extends Action {
                 if (panel.modal != null) {
                     if (panel.modal instanceof ClrDlg) {
                         ClrDlg dlg = (ClrDlg) panel.modal;
-                        if (dlg.info.text.toUpperCase(Locale.ENGLISH).contains("PRINTER")) errorCode = 102;
+                        if (dlg.getTitle().toUpperCase(Locale.ENGLISH).contains("PRINTER")) errorCode = 102;
+                        //if (dlg.info.text.toUpperCase(Locale.ENGLISH).contains("PRINTER")) errorCode = 102;
                     }
                 }
 

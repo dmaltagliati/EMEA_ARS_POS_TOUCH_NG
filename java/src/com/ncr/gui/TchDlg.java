@@ -47,6 +47,7 @@ public class TchDlg extends Modal {
                     Action.input.reset(FmtIo.editNum(x + y * cols + 1, 2));
                     Action.input.key = getCode();
                     // modalMain(0);
+					press(getCode());
                 } else {
                     modalMain(2);
                 }

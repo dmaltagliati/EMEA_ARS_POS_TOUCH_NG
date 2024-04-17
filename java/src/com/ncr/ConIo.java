@@ -13,16 +13,18 @@ public class ConIo extends LinIo {
 	public static int dky = -1, sel = 0, lck = 8;
 	public int key, num, dec, tic;
 	public int flg, max, msk, pnt;
+	public boolean echo; // MMS-JUNIT#A
 
 	public String alpha, label, prompt;
 	public String qrcode = "";  //QRCODE-SELL-CGA#A
 	public String aux1 = ""; // TSC-ENH2014-1-AMZ#ADD -- extended EAN 128 info
 	static final char QR_CODE_SEPARATOR = ';';
+	public int error;
 	// MMS-SCANNER#A BEGIN
 	public static boolean uppercase = false;
 	int scanType = 0;
 	String scanLabel = "";
-	public int error;
+	
 
 	public final static int DECODED_LABEL_TYPE_UNKNOWN = 0; // Non gestito
 	public final static int DECODED_LABEL_TYPE_UPCA = 101;
@@ -271,15 +273,20 @@ public class ConIo extends LinIo {
 	}
 
 	public void init(int flg, int max, int msk, int pnt) {
+		// MMS-R10
+		this.key = 0;
+		this.dec = 0;
+		// MMS-R10
 		this.flg = flg;
 		this.max = max;
 		this.msk = msk;
 		this.pnt = pnt;
+		this.echo = true;
 		reset("");
 	}
 
 	public void reset(String s) {
-		key = dec = 0;
+		// key = dec = 0; //MMS-R10
 		num = (pb = s).length();
 		if ((flg & 0x80) == 0 || num > 0)
 			echo();
@@ -316,10 +323,16 @@ public class ConIo extends LinIo {
 			}
 		}
 		num = pb.length();
-		show(2);
+		if (echo) {
+			show(2);
+		}
+
 	}
 
 	public int numeric(int code) {
+		if (max == 99) {
+			return -1;
+		}
 		if (num >= max)
 			return 2;
 		pb += (char) code;
@@ -332,7 +345,7 @@ public class ConIo extends LinIo {
 
 	public int accept(int code) {
 		int sts = -1;
-		label = null;
+
 		if (code >= '0' && code <= '9') {
 			return numeric(code);
 		}
@@ -368,6 +381,15 @@ public class ConIo extends LinIo {
 		return 0;
 	}
 
+	int alpha(int code) {
+
+		if (code >= ' ') {
+
+			return numeric(code);
+		}
+
+		return accept(code == ABORT ? CLEAR : code);
+	}
 	public int adjust(int len) {
 		if (dec == 0)
 			return 0;
@@ -586,7 +608,7 @@ public class ConIo extends LinIo {
 			return;
 		posLock = pos--;
 		tic = 0;
-		gui.dspStatus(2, lck_txt[pos], true, pos > 1);
+		GdPos.panel.dspStatus(2, lck_txt[pos], true, pos > 1);
 		lck &= 0xF0;
 		lck |= lck_bit[pos];
 		if (pos == 2) {
@@ -613,42 +635,120 @@ public class ConIo extends LinIo {
 			e.consume();
 			return ERROR;
 		}
-		if (e.isAltDown())
+		if (e.isAltDown()) {
+			e.consume();
 			return ERROR;
+		}
 		int code = e.getKeyChar();
 		int vkey = e.getKeyCode();
-		gui.feedBack(e);
-		if (vkey == e.VK_PAUSE)
+		GdPos.panel.feedBack(e);
+		if (vkey == KeyEvent.VK_PAUSE) {
 			return accept(PAUSE);
-		if (vkey >= e.VK_F1 && vkey <= e.VK_F10) {
-			code = vkey - e.VK_F1 + 0xbb;
-			if (e.isControlDown())
-				code += 0x23;
-			else if (e.isShiftDown())
-				code += 0x19;
-		} else if ((vkey = keyTrans(vkey)) > 0) {
-			code = vkey;
 		}
-		else if (code < 0x20 || code > 0xff)
+
+		if (vkey == KeyEvent.VK_ENTER) {
+			code = '\r';
+		}
+		if (vkey == KeyEvent.VK_BACK_SPACE) {
+			code = '\b'; /* for LINUX */
+		}
+		if (vkey == KeyEvent.VK_ESCAPE) {
+			code = 0x1b; /* for LINUX */
+		}
+		// MMS-R10
+		// if (vkey == KeyEvent.VK_HOME) { //DMA-MANTIS_15602#D
+		if (vkey == KeyEvent.VK_HOME && GdPos.panel.bottomBarDialog != null) { // DMA-MANTIS_15602#A
+			GdPos.panel.bottomBarDialog.toggle();
+			e.consume();
 			return ERROR;
-		else if ((flg & 0x10) > 0)
-			return numeric(code);
-		else if (code > 0x9f)
-			return ERROR;
-		code = table[code];
-		if (code < 1 || code >= 255)
-			return ERROR;
-		e.consume();
-		if (code >= 0x80 && code < 0x88) {
-			if (dky < 0)
-				return ERROR;
-			code -= 0x80;
-			if (sel > 0) {
-				gui.select(code);
-				return ERROR;
+		}
+		if (code == 0 || code == 0xffff) /* CHAR_UNDEFINED */ {
+			if (vkey >= KeyEvent.VK_F1 && vkey <= KeyEvent.VK_F10) {
+				code = vkey - KeyEvent.VK_F1 + 0x3b;
+				if (e.isControlDown()) {
+					code += 35;
+				} else {
+					if (e.isShiftDown()) {
+						code += 25;
+					}
+				}
+			} else {
+				if (vkey == KeyEvent.VK_UP) {
+					code = 0x48;
+					// BAS-FIX-2130368-MMS#A BEGIN
+				} else if (vkey == KeyEvent.VK_F11) { // Lo trasformo in
+														// SHIFT+F1
+					vkey = KeyEvent.VK_F1;
+					code = vkey - KeyEvent.VK_F1 + 0x3b;
+					code += 25;
+				} else if (vkey == KeyEvent.VK_F12) { // Lo trasformo in
+														// SHIFT+F2
+					vkey = KeyEvent.VK_F2;
+					code = vkey - KeyEvent.VK_F1 + 0x3b;
+					code += 25;
+					// BAS-FIX-2130368-MMS#A END
+				} else {
+					if (vkey == KeyEvent.VK_DOWN) {
+						code = 0x50;
+						// MMS-LOTTERY-VAR1#A BEGIN
+					} else if (vkey == KeyEvent.VK_RIGHT) {
+						if (table[0x49 + 0x80] == 0) {
+							DevIo.postInput("SELECT" + (GdPos.panel.journalTable.getRowCount() - 1), null);
+							return ERROR;
+						}
+					} else if (vkey == KeyEvent.VK_LEFT && GdPos.panel.modal == null) {
+						if (table[0x47 + 0x80] == 0) {
+							DevIo.postInput("SELECT0", null);
+							return ERROR;
+						}
+						// MMS-LOTTERY-VAR1#A END
+					} else {
+						e.consume();
+						return ERROR;
+					}
+				}
 			}
-			if ((code = dynas[dky][code]) == 0xFF)
-				return ERROR;
+			code <<= 16;
+		}
+		// e.consume(); //MMS-R10
+		if (code > 0xffff) {
+			code = (code >> 16) + 0x80;
+		} else {
+			if ((flg & 0x10) > 0) {
+//				if (table[code] != 0x2b) {// BGE-MANTIS22020#D me lo ha detto MASO
+
+					return alpha(code);
+//				}// BGE-MANTIS22020#D me lo ha detto MASO
+			}
+		}
+		// MMS-R10
+		if (code > 0x9f) {
+			e.consume();
+			return ERROR;
+		}
+		if ((table[code] == 0x2b) && ((flg & 0x10) > 0) && (pb.length() != 0)) {
+			code = CLEAR;
+		} else {
+			code = table[code];
+		}
+		if (code < 1 || code >= 255) {
+			e.consume();
+			return ERROR;
+		}
+		if (code >= 0x80 && code < 0x88) {
+			if (dyna != null) { // MMS-R10
+				// EMEA-00046-DSA
+				if (sel > 0) {
+					dyna.select(code - 0x80);
+					e.consume();
+					return ERROR;
+				}
+				// EMEA-00046-DSA
+				if ((code = dynas[dky][code - 0x80]) == 0) {
+					e.consume();
+					return ERROR;
+				}
+			}
 		}
 		logger.debug("Code: " + String.format("0x%04x", code));
 		return accept(code);
@@ -763,5 +863,8 @@ public class ConIo extends LinIo {
 		} else
 			result[2] = "";
 		return ind - hdr;
+	}
+		void setEcho(boolean value) {
+		echo = value;
 	}
 }
