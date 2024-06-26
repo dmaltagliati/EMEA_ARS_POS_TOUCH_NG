@@ -384,7 +384,7 @@ public class GdPsh extends GiftCardPlugin {
         res = pshTotalGiftCardBalance(itm);
         if (res > 0) return res;
 
-        panel.clearLink(Mnemo.getDiag(MNEMO_DIAGS_BASE + 2).trim() + " " + editMoney(0, itm.amt), 0x81);
+        GdPos.panel.clearLink(Mnemo.getDiag(MNEMO_DIAGS_BASE + 2).trim() + " " + editMoney(0, itm.amt), 0x81);
         return OK;
     }
 
@@ -412,7 +412,7 @@ public class GdPsh extends GiftCardPlugin {
             return res;
         }
 
-        panel.clearLink(Mnemo.getDiag(MNEMO_DIAGS_BASE + 3).trim() + " " + cus.getPnt(), 0x81);
+        GdPos.panel.clearLink(Mnemo.getDiag(MNEMO_DIAGS_BASE + 3).trim() + " " + cus.getPnt(), 0x81);
         logger.debug("Exit. Ok");
         return OK;
     }
@@ -1413,7 +1413,7 @@ public class GdPsh extends GiftCardPlugin {
         if (!REPLY_OK_VALUE.equals(reply[0])) {
             if (REPLY_NOT_FOUND_VALUE.equals(reply[0])) {
                 //if (!ask(Mnemo.getMenu(124))) {
-                    panel.innerVoice(ConIo.CLEAR);
+                GdPos.panel.innerVoice(ConIo.CLEAR);
                     result = 150;
                 //}
             } else {
@@ -1589,7 +1589,7 @@ public class GdPsh extends GiftCardPlugin {
                 if (res > 0) {
                     return res;
                 }
-                res = panel.clearLink(Mnemo.getDiag(MNEMO_DIAGS_BASE + 2).trim() + editMoney(0, itm.amt), 0x83);
+                res = GdPos.panel.clearLink(Mnemo.getDiag(MNEMO_DIAGS_BASE + 2).trim() + editMoney(0, itm.amt), 0x83);
                 if (res == 1) {
                     return -1;
                 }
@@ -1689,7 +1689,7 @@ public class GdPsh extends GiftCardPlugin {
                         replyAmt[0] = GIFT_EMPTY + "";
                         return replyAmt;
                     } else {
-                        sts = panel.clearLink(Mnemo.getInfo(102), 3);
+                        sts = GdPos.panel.clearLink(Mnemo.getInfo(102), 3);
                     }
 
                     if (sts == 1) {  //CLEAR

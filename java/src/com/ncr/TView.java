@@ -13,9 +13,9 @@ public abstract class TView extends Basis {
 
 	public static int syncIndex(int ind) {
 		if (ctl.view > 0) {
-			if (panel.trxView.list.sel == 0)
+			if (GdPos.panel.trxView.list.sel == 0)
 				return -1;
-			TrxData td = getLineItem(panel.trxView.list.sel - 1);
+			TrxData td = getLineItem(GdPos.panel.trxView.list.sel - 1);
 			ind = td.state == 1 ? td.index : -1;
 		}
 		return indexEC = ind;
@@ -36,20 +36,20 @@ public abstract class TView extends Basis {
 		//
 //		if (getTrxData().size() > 0)
 //			return;
-//		panel.trxCard.setPicture("READY");
-//		if (panel.trxCard.image != null)
-//			panel.pnlRoll.toFront(2);
+//		GdPos.panel.trxCard.setPicture("READY");
+//		if (GdPos.panel.trxCard.image != null)
+//			GdPos.panel.pnlRoll.toFront(2);
 	}
 
 	public static void update() {
 		int ind, sel = getTrxData().size();
 
 		if (ctl.view > 0) {
-			panel.pnlRoll.toFront(1);
+			GdPos.panel.pnlRoll.toFront(1);
 			select();
 		}
-		panel.trxView.updateView(sel);
-		//panel.cid.trxView.updateView(sel);
+		GdPos.panel.trxView.updateView(sel);
+		//GdPos.panel.cid.trxView.updateView(sel);
 		if (sel > 0) {
 			TrxData td = (TrxData) getTrxData().elementAt(ind = sel - 1);
 			while (td.index < 0) {
@@ -59,7 +59,7 @@ public abstract class TView extends Basis {
 				if (td.under)
 					break;
 				if (td.index >= 0)
-					panel.trxView.updateView(ind + 1);
+					GdPos.panel.trxView.updateView(ind + 1);
 			}
 		}
 	}
@@ -142,9 +142,9 @@ public abstract class TView extends Basis {
 	}
 
 	public static void scroll(int vkey) {
-		int sel = panel.trxView.scroll(vkey);
+		int sel = GdPos.panel.trxView.scroll(vkey);
 		if (sel > 0)
-			panel.trxView.updateView(sel);
+			GdPos.panel.trxView.updateView(sel);
 	}
 
 	public static void clear() {

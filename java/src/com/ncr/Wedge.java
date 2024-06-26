@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import java.awt.event.KeyEvent;
 
-public class Wedge extends PosIo implements DataListener, ErrorListener, StatusUpdateListener, MSRConst {
+public class Wedge extends PosIo implements DataListener, StatusUpdateListener, ErrorListener, MSRConst {
     private static final Logger logger = Logger.getLogger(Wedge.class);
     Keylock lock;
     MSR imsr;
@@ -37,6 +37,8 @@ public class Wedge extends PosIo implements DataListener, ErrorListener, StatusU
         } catch (JposException je) {
             jposError(je, tone);
         }
+
+        keyb = new POSKeyboard();
     }
 
     void init() {

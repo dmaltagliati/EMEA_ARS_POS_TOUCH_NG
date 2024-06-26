@@ -3,6 +3,7 @@ package com.ncr;
 import com.ncr.gui.BcrDlg;
 
 import java.io.*;
+import com.ncr.*;
 
 public class BcrIo extends Basis {
 	static BcrIo bcr1 = null;
@@ -46,12 +47,12 @@ public class BcrIo extends Basis {
 	}
 
 	static void watch(int ind) {
-		if (panel.modal != null) {
-			if (!(panel.modal instanceof BcrDlg))
+		if (GdPos.panel.modal != null) {
+			if (!(GdPos.panel.modal instanceof BcrDlg))
 				return;
 			if (bcr1.cashcount() < 1)
 				return;
-			BcrDlg dlg = (BcrDlg) panel.modal;
+			BcrDlg dlg = (BcrDlg) GdPos.panel.modal;
 			stsLine.init(tnd[ind].text).upto(20, editMoney(ind, getDeposit(ind))).show(1);
 			dlg.info[0].setText(stsLine.toString());
 			stsLine.init(Mnemo.getText(24)).upto(20, editMoney(ind, getDeposit(0))).show(2);

@@ -4,12 +4,12 @@ import com.ncr.Basis;
 import com.ncr.Mnemo;
 import com.ncr.gui.ModDlg;
 import org.apache.log4j.Logger;
-
+import com.ncr.GdPos;
 public class CardReader extends Basis {
     private static final Logger logger = Logger.getLogger(CardReader.class);
 
     public static boolean readCard(String hdr, int txt, int min, int max, int msk, int dec) {
-        for (int sts; ; panel.clearLink(Mnemo.getInfo(sts), 1)) {
+        for (int sts; ; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
             ModDlg dlg = new ModDlg(hdr);
             dlg.block = false;
             dlg.input.prompt = Mnemo.getText(txt);

@@ -32,7 +32,7 @@ class GdCashc extends Action {
 				itm.tnd = 1;
 			}
 		} while ((rec = reg.findTnd(itm.tnd, sc)) < 1);
-		panel.dspSymbol(tnd[itm.tnd].symbol);
+		GdPos.panel.dspSymbol(tnd[itm.tnd].symbol);
 		if (reg.sales[rec - 1][0].total == 0) {
 			lREG.read(rec, LOCAL);
 			if ((lREG.tflg & 0x20) > 0)

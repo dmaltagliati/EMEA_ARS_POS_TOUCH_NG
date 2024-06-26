@@ -523,7 +523,7 @@ abstract class Promo extends Basis implements CONSTANT {
         }
         if (nbr == 0) {
             if (objFsRewardData.getSimpleFlag()) {
-                panel.display(2, Mnemo.getInfo(8));
+                GdPos.panel.display(2, Mnemo.getInfo(8));
                 error("To transaction level");
                 return false;
             }
@@ -531,7 +531,7 @@ abstract class Promo extends Basis implements CONSTANT {
                 dlu = itm;
                 int sts = GdPrice.src_dpt(nbr = keyValue(editNum(nbr, 4)));
                 if (sts > 0) {
-                    panel.display(2, Mnemo.getInfo(sts));
+                    GdPos.panel.display(2, Mnemo.getInfo(sts));
                     error(Mnemo.getText(6) + editKey(nbr, 4) + "????");
                     return false;
                 }
@@ -656,7 +656,7 @@ abstract class Promo extends Basis implements CONSTANT {
         if (!objFsRewardData.getSimpleFlag())
             if (callType == 0) return;
         String txt = objFsRewardData.GetChoiceTitle().trim();
-        int sts = panel.clearLink(txt, 3);
+        int sts = GdPos.panel.clearLink(txt, 3);
         if (sts > 0) objFrequentShopper.SetChoiceAnswer(sts);
     }
 
@@ -666,7 +666,7 @@ abstract class Promo extends Basis implements CONSTANT {
         if (objFsRewardData.getReversalFlag()) return;
         if (!objFsRewardData.getSimpleFlag())
             if (callType == 0) return;
-        for (; ; panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
+        for (; ; GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
             input.prompt = Mnemo.getText(15);
             input.init(0x00, 1, 1, 0);
             stsLine.init(objFsRewardData.GetChoiceTitle()).show(1);

@@ -30,9 +30,9 @@ abstract class GdScale extends Basis {
 		if ((version[2] = DevIo.scale.version) > 0) {
 			prtLine.init(vrs_tbl[2]).upto(17, Integer.toString(version[2])).onto(20, vrs_tbl[3])
 					.upto(37, editNum(crc, 5)).book(3);
-			panel.display(1, prtLine.toString(20, 20));
+			GdPos.panel.display(1, prtLine.toString(20, 20));
 			WghIo.setItemData(0, Mnemo.getMenu(20));
-			for (;; panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
+			for (;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
 				sts = get_weight(prtLine.toString(0, 20), true);
 				if (input.key == input.CLEAR)
 					sts = 0;
@@ -94,8 +94,8 @@ abstract class GdScale extends Basis {
 		int price = ptr.prpos, tare = tare_tbl[ptr.tare];
 		boolean live = (options[O_Scale] & 0x10) > 0;
 
-		panel.display(1, ptr.text);
-		panel.dspPicture("DPT_" + editKey(ptr.dpt_nbr, 4));
+		GdPos.panel.display(1, ptr.text);
+		GdPos.panel.dspPicture("DPT_" + editKey(ptr.dpt_nbr, 4));
 		if (price < 1)
 			price = ptr.prpov > 0 ? ptr.prpov : ptr.price;
 		WghIo.setItemData(price, ptr.text);

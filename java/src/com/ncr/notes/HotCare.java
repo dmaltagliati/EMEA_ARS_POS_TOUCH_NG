@@ -33,7 +33,7 @@ public class HotCare extends Basis implements Runnable {
         ptr.init(sc, sREG);
         String s = ptr.editXrate(true);
         logConsole(2, "rfc " + editNum(ic, 2) + ":" + s, null);
-        panel.dspStatus(0, s, true, false);
+        GdPos.panel.dspStatus(0, s, true, false);
     }
 
     public void fxf_apply() {
@@ -56,12 +56,12 @@ public class HotCare extends Basis implements Runnable {
             File f = localFile(null, src);
             if (!f.exists())
                 return;
-            panel.dspStatus(0, src + "--->nul", true, false);
+            GdPos.panel.dspStatus(0, src + "--->nul", true, false);
             logConsole(2, "del " + src, null);
             localMove(null, f);
         }
         if (type.equals("F2X")) {
-            panel.dspStatus(0, "run " + src, true, false);
+            GdPos.panel.dspStatus(0, "run " + src, true, false);
             if (tar != null)
                 src += " " + tar;
             sts = HotProc.exec("7052_F2X.BAT " + src);
@@ -84,7 +84,7 @@ public class HotCare extends Basis implements Runnable {
         localMove(new File(tmp), f);
         if (tar == null)
             tar = ".";
-        panel.dspStatus(0, src + "--->" + tar, true, false);
+        GdPos.panel.dspStatus(0, src + "--->" + tar, true, false);
     }
 
     public void cnt_show(int tic) {
@@ -92,7 +92,7 @@ public class HotCare extends Basis implements Runnable {
             mnt_tic = tic;
             cntLine.init(mnt_line.substring(20)).onto(1, editNum(mnt_add, 5)).onto(8, editNum(mnt_chg, 5)).onto(15,
                     editNum(mnt_del, 5));
-            panel.dspStatus(0, cntLine.toString(), true, false);
+            GdPos.panel.dspStatus(0, cntLine.toString(), true, false);
         }
     }
 

@@ -107,7 +107,7 @@ public class GdSpinneys extends Action {
         dspLine.init("").show(1);
         if (sts == 0 || sts == 116) {
             if (sts == 116) {
-                panel.clearLink(Mnemo.getInfo(sts), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
             }
             Itmdc.IDC_write('F', 0, 0, tra.number, tra.cnt, tra.amt);
             tblWrite();
@@ -184,7 +184,7 @@ public class GdSpinneys extends Action {
         dspLine.init("").show(1);
         if (sts == 0 || sts == 116) {
             if (sts == 116) {
-                panel.clearLink(Mnemo.getInfo(sts), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
             }
             Itmdc.IDC_write('F', 0, 0, tra.number, tra.cnt, tra.amt);
             tblWrite();
@@ -252,7 +252,7 @@ public class GdSpinneys extends Action {
         dspLine.init("").show(1);
         if (sts == 0 || sts == 116) {
             if (sts == 116) {
-                panel.clearLink(Mnemo.getInfo(sts), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
             }
             Itmdc.IDC_write('F', 0, 0, tra.number, tra.cnt, tra.amt);
             tblWrite();
@@ -542,9 +542,9 @@ public class GdSpinneys extends Action {
             ResponseMessage registration = checkResultJson(service.getResponseJson());
             if (registration.getCode() == 0) {
                 writeCustomerIdc(customer, mode, 0);
-                panel.clearLink(Mnemo.getMenu(95), 1);
+                GdPos.panel.clearLink(Mnemo.getMenu(95), 1);
             } else { //errore dal server, lo visualizzo
-                int choose = panel.clearLink(registration.getDescription() + " " + Mnemo.getInfo(110).trim(), 3);
+                int choose = GdPos.panel.clearLink(registration.getDescription() + " " + Mnemo.getInfo(110).trim(), 3);
                 input.reset("");
 
                 if (choose == 1) { //ESC

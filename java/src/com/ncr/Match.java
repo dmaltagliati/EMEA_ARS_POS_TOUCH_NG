@@ -44,7 +44,7 @@ abstract class Match extends Action {
 		int ind = scan_mxm(itm.mmt), prv, cnt = 0;
 
 		if (ind < 0)
-			panel.clearLink(Mnemo.getInfo(35), 0x81);
+			GdPos.panel.clearLink(Mnemo.getInfo(35), 0x81);
 		if (ind < 1)
 			return;
 		if (cus.isNoPromo())
@@ -431,8 +431,8 @@ abstract class Match extends Action {
 		String s = plu_tbl[ind].substring(12);
 		int dpt_no = keyValue(s), sts = 0;
 
-		panel.display(1, plu_txt[ind] + "  ");
-		panel.dspPicture("REF_" + editKey(dpt_no, 4));
+		GdPos.panel.display(1, plu_txt[ind] + "  ");
+		GdPos.panel.dspPicture("REF_" + editKey(dpt_no, 4));
 		if (input.num == 0) {
 			File f = localFile("gif", "TCH_" + s + ".GIF");
 			input.prompt = Mnemo.getText(15);
@@ -553,13 +553,13 @@ abstract class Match extends Action {
 			ptr.qual = plu.text;
 		if (tra.res > 0)
 			return 0;
-		panel.dspPicture("QUA_" + editKey(plu.dpt_nbr, 4));
-		panel.display(1, ptr.text);
-		panel.display(2, plu.text);
+		GdPos.panel.dspPicture("QUA_" + editKey(plu.dpt_nbr, 4));
+		GdPos.panel.display(1, ptr.text);
+		GdPos.panel.display(2, plu.text);
 		if (plu.spec == '!')
-			panel.clearLink(Mnemo.getInfo(42), 0x22);
+			GdPos.panel.clearLink(Mnemo.getInfo(42), 0x22);
 		if (plu.spec == '?') {
-			if (panel.clearLink(Mnemo.getInfo(40), 0x23) < 2)
+			if (GdPos.panel.clearLink(Mnemo.getInfo(40), 0x23) < 2)
 				return 7;
 		}
 		if (plu.spec == 'S')
@@ -577,11 +577,11 @@ abstract class Match extends Action {
 	static int chk_reason(int code) {
 		int sts;
 
-		for (;; panel.clearLink(Mnemo.getInfo(sts), 1)) {
+		for (;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
 			if (lRCD.find(editNum(code * 100, 4)) < 1)
 				return ERROR;
-			panel.dspPicture("RCD_" + lRCD.scan(4));
-			panel.display(1, lRCD.skip(4).scan(20));
+			GdPos.panel.dspPicture("RCD_" + lRCD.scan(4));
+			GdPos.panel.display(1, lRCD.skip(4).scan(20));
 			SelDlg dlg = new SelDlg(Mnemo.getText(22));
 			while (lRCD.read(++lRCD.recno) > 0) {
 				if (lRCD.scanNum(2) > code)
@@ -624,7 +624,7 @@ abstract class Match extends Action {
 	static int dd_query(char id, int code) {
 		for (; lDDQ.read(lDDQ.recno) > 0; lDDQ.recno++) {
 			if (dd_check(id, code)) {
-				panel.jrnPicture("QUERY");
+				GdPos.panel.jrnPicture("QUERY");
 				itm.mark = id;
 				itm.spf1 = code;
 
@@ -782,8 +782,8 @@ abstract class Match extends Action {
 			}
 		//if (dlg.list.getItemCount() < 1)
 		//	return ERROR;
-		panel.display(1, text);
-		panel.dspPicture(bmap + editKey(key, 4));
+		GdPos.panel.display(1, text);
+		GdPos.panel.dspPicture(bmap + editKey(key, 4));
 		input.prompt = Mnemo.getText(type);
 		input.init(0x00, 0, 4, 0);
 		dlg.itemEcho(-1);
@@ -812,7 +812,7 @@ abstract class Match extends Action {
 			if (sts < 1)
 				key = sel;
 			else
-				panel.clearLink(Mnemo.getInfo(sts), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
 		}
 		if (input.key != input.ENTER)
 			return 7;

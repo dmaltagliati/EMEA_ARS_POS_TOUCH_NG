@@ -206,7 +206,7 @@ abstract class Magic extends Basis {
 	static void nxt_item(int sts) {
 		if (sts > 0) {
 			dspLine.init(' ').show(1);
-			panel.clearLink(Mnemo.getInfo(sts), 0x81);
+			GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81);
 			pit = null;
 			return;
 		}

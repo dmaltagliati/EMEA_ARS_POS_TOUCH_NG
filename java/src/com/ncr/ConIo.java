@@ -268,10 +268,31 @@ public class ConIo extends LinIo {
 		}
 	}
 	// MMS-SUPERVISOR-SELLING#A END
+	// EMEA-02021-GQU#A BEGIN
+	static int vkeys[][] = { /* virtual key code, MS DOS code */
+			{ KeyEvent.VK_ENTER, 0x0d }, { KeyEvent.VK_BACK_SPACE, 0x08 }, { KeyEvent.VK_TAB, 0x09 },
+			{ KeyEvent.VK_ESCAPE, 0x1b }, { KeyEvent.VK_HOME, 0x47 + 0x80 }, { KeyEvent.VK_UP, 0x48 + 0x80 },
+			{ KeyEvent.VK_PAGE_UP, 0x49 + 0x80 }, { KeyEvent.VK_LEFT, 0x4b + 0x80 }, { KeyEvent.VK_RIGHT, 0x4d + 0x80 },
+			{ KeyEvent.VK_END, 0x4f + 0x80 }, { KeyEvent.VK_DOWN, 0x50 + 0x80 }, { KeyEvent.VK_PAGE_DOWN, 0x51 + 0x80 },
+			{ KeyEvent.VK_INSERT, 0x52 + 0x80 }, { KeyEvent.VK_DELETE, 0x53 + 0x80 }, { KeyEvent.VK_F11, 0x54 + 0x80 },
+			{ KeyEvent.VK_F12, 0x55 + 0x80 }, };
+
+	// EMEA-02021-GQU#A END
 	public ConIo(int size) {
 		super("CON", 0, size);
 	}
 
+	// EMEA-02021-GQU#A BEGIN
+	int keyTrans(int i) {
+		for (int j = vkeys.length; j-- > 0;) {
+			if (vkeys[j][0] == i) {
+				return vkeys[j][1];
+			}
+		}
+		return 0;
+	}
+
+	// EMEA-02021-GQU#A END
 	public void init(int flg, int max, int msk, int pnt) {
 		// MMS-R10
 		this.key = 0;
@@ -622,12 +643,7 @@ public class ConIo extends LinIo {
 		return (optAuth & 2) > 0 || (lck & pos) > 0;
 	}
 
-	public int keyTrans(int vkey) {
-		for (int ind = vkeys.length; ind-- > 0;)
-			if (vkeys[ind][0] == vkey)
-				return vkeys[ind][1];
-		return 0;
-	}
+
 
 	public int keyBoard(KeyEvent e) {
 		logger.debug("KeyChar: " + e.getKeyChar() + " KeyCode: " + String.format("0x%04x", e.getKeyCode()));
@@ -762,13 +778,6 @@ public class ConIo extends LinIo {
 		return table[0xBB] == 0x80;
 	}
 
-	static int vkeys[][] = { /* virtual key code, MS DOS code */
-			{ KeyEvent.VK_ENTER, 0x0d }, { KeyEvent.VK_BACK_SPACE, 0x08 }, { KeyEvent.VK_TAB, 0x09 },
-			{ KeyEvent.VK_ESCAPE, 0x1b }, { KeyEvent.VK_HOME, 0x47 + 0x80 }, { KeyEvent.VK_UP, 0x48 + 0x80 },
-			{ KeyEvent.VK_PAGE_UP, 0x49 + 0x80 }, { KeyEvent.VK_LEFT, 0x4b + 0x80 }, { KeyEvent.VK_RIGHT, 0x4d + 0x80 },
-			{ KeyEvent.VK_END, 0x4f + 0x80 }, { KeyEvent.VK_DOWN, 0x50 + 0x80 }, { KeyEvent.VK_PAGE_DOWN, 0x51 + 0x80 },
-			{ KeyEvent.VK_INSERT, 0x52 + 0x80 }, { KeyEvent.VK_DELETE, 0x53 + 0x80 }, { KeyEvent.VK_F11, 0x54 + 0x80 },
-			{ KeyEvent.VK_F12, 0x55 + 0x80 }, };
 
 	static int table[] = { // x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF
 			/* 00 - 0F */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC2, 0x00, 0x0D, 0x00, 0x00, 0x0D, 0x00,

@@ -23,9 +23,9 @@ public class Modal extends JDialog {
 
 	private static final long serialVersionUID = 3396876640262724L;
 	public ConIo input = Action.input;
-	public GdPos panel = Action.panel;
+	//public GdPos panel = Action.panel;
 	public Component kbrd = this;
-	public Component bounds = panel.pnlRoll;
+	public Component bounds = GdPos.panel.pnlRoll;
 	public int code = ConIo.ENTER;
 	protected int max;
 	protected int flg;
@@ -88,7 +88,8 @@ public class Modal extends JDialog {
 	// MAL-MANTIS-17691#A END // MMS-JUNIT
 
 	public Modal(String title) {
-		super(GdPos.panel.touchMenuFrame != null ? GdPos.panel.touchMenuFrame : GdPos.panel.frame, title, true);
+		//super(GdPos.panel.touchMenuFrame != null ? GdPos.panel.touchMenuFrame : GdPos.panel.frame, title, true);
+		super(GdPos.panel.frame, title, true);
 		UtilLog4j.logInformation(this.getClass(), getName() + "; title=" + title);
 
 		flg = Action.input.flg;

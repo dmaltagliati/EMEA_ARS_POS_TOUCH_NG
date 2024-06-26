@@ -22,7 +22,7 @@ abstract class BirIo extends Basis {
 			logger.debug("Problems capturing fingerprint");
 			return ERROR;
 		}
-		int sts = panel.clearLink(Mnemo.getInfo(63), 0x21);
+		int sts = GdPos.panel.clearLink(Mnemo.getInfo(63), 0x21);
 		if (sts >= 0) {
 			DevIo.biom.cancel();
 			return ERROR;
@@ -30,11 +30,11 @@ abstract class BirIo extends Basis {
 		if (!DevIo.biom.enroll())
 			return 9;
 		if (DevIo.biom.dataRAW != null) {
-			GdLabel lbl = panel.picture;
+			GdLabel lbl = GdPos.panel.picture;
 			lbl.setText(null);
 			lbl.setImage(null);
 			//lbl.prepareImage(lbl.image = DevIo.biom.dataRAW, lbl);
-			if (panel.clearLink(Mnemo.getInfo(40), 0x03) < 2)
+			if (GdPos.panel.clearLink(Mnemo.getInfo(40), 0x03) < 2)
 				return ERROR;
 		}
 		if (DevIo.biom.dataBIR != null) {
@@ -75,7 +75,7 @@ abstract class BirIo extends Basis {
 		}
 		if (!DevIo.biom.capture(2))
 			return ERROR;
-		int sts = panel.clearLink(Mnemo.getInfo(63), 0x21);
+		int sts = GdPos.panel.clearLink(Mnemo.getInfo(63), 0x21);
 		if (sts != -2) {
 			DevIo.biom.cancel();
 			return 7;
@@ -85,9 +85,9 @@ abstract class BirIo extends Basis {
 
 	static void status(int code) {
 		if (code == 0) /* data events */
-			panel.modal.modalMain(-2);
+			GdPos.panel.modal.modalMain(-2);
 		else /* status update events */
-			panel.display(2, Mnemo.getHint(code));
+			GdPos.panel.display(2, Mnemo.getHint(code));
 	}
 
 	static void collect(String name) {

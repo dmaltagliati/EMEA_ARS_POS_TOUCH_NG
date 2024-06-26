@@ -1,5 +1,6 @@
 package com.ncr.ecommerce;
 
+import com.ncr.GdPos;
 import com.ncr.Itemdata;
 import com.ncr.Mnemo;
 import com.ncr.Struc;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static com.ncr.Action.group;
 import static com.ncr.Basis.input;
-import static com.ncr.Basis.panel;
+//import static com.ncr.Basis.panel;
 import static com.ncr.Struc.itm;
 
 public class QrCodeManager {
@@ -103,7 +104,7 @@ public class QrCodeManager {
             if (SscoPosManager.getInstance().isUsed()) {
                 unsoldItems.add(input.pb.trim());
             } else {
-                panel.clearLink(Mnemo.getInfo(sts), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
             }
         }
     }

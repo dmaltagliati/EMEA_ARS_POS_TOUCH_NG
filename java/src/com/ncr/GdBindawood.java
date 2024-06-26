@@ -182,7 +182,7 @@ public class GdBindawood extends Action {
         if (!loyaltyService.isLoyaltyTransaction()) {
             sts = 7;
         } else {
-            panel.clearLink(Mnemo.getDiag(POINTS_BALANCE).trim() + " " + cus.getPnt(), 0x81);
+            GdPos.panel.clearLink(Mnemo.getDiag(POINTS_BALANCE).trim() + " " + cus.getPnt(), 0x81);
         }
 
         logger.debug("Exit - sts: " + sts);
@@ -259,8 +259,8 @@ public class GdBindawood extends Action {
                 LoyaltyError loyaltyError = (LoyaltyError) loyaltyData;
                 logger.info("Loyalty error: " + loyaltyError.getResponseCode() + " - " + loyaltyError.getResponseMessage());
                 String error = rightFill(loyaltyError.getResponseCode() + " - " + loyaltyError.getResponseMessage(), 40, ' ');
-                panel.display(1, error.substring(0, 20));
-                panel.display(2, error.substring(20, 40));
+                GdPos.panel.display(1, error.substring(0, 20));
+                GdPos.panel.display(2, error.substring(20, 40));
                 sts = errorCode;
             }
         } else {
@@ -283,7 +283,7 @@ public class GdBindawood extends Action {
             loyaltyActive = loyaltyService.initialize(tnd[0].dec);
             if (!loyaltyActive) {
                 logger.warn("Loyalty service disabled");
-                if (!SscoPosManager.getInstance().isEnabled()) panel.clearLink(Mnemo.getInfo(LOYALTY_DISABLED), 1);
+                if (!SscoPosManager.getInstance().isEnabled()) GdPos.panel.clearLink(Mnemo.getInfo(LOYALTY_DISABLED), 1);
             }
             loyaltyStatus();
         }
@@ -545,8 +545,8 @@ public class GdBindawood extends Action {
                 LoyaltyError loyaltyError = (LoyaltyError) loyaltyData;
                 logger.info("Loyalty error: " + loyaltyError.getResponseCode() + " - " + loyaltyError.getResponseMessage());
                 String error = rightFill(loyaltyError.getResponseCode() + " - " + loyaltyError.getResponseMessage(), 40, ' ');
-                panel.display(1, error.substring(0, 20));
-                panel.display(2, error.substring(20, 40));
+                GdPos.panel.display(1, error.substring(0, 20));
+                GdPos.panel.display(2, error.substring(20, 40));
                 sts = REDEMPTION_ERROR;
             }
         } else {

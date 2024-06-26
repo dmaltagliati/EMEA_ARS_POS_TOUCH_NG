@@ -207,7 +207,7 @@ public class GdRegis extends Action {
             if ((lREG.tflg & 1) == 0)
                 continue;
             if (ind < 1) {
-                panel.jrnPicture("JRN_SAVE");
+                GdPos.panel.jrnPicture("JRN_SAVE");
                 prtBlock(2, save_txt, 0, ind = 10);
             }
             stsLine.init(lREG.text).upto(20, editMoney(0, -amt));
@@ -242,7 +242,7 @@ public class GdRegis extends Action {
         ResponseTrnDocumentExpand res = new ResponseTrnDocumentExpand();
 
         dspLine.show(1);
-        panel.dspPicture(dspBmap);
+        GdPos.panel.dspPicture(dspBmap);
         if (tra.mode == M_GROSS) {
             prtBlock(ELJRN + 2, euro_txt, 0, 10);
             if ((ind = tnd_tbl[K_AltCur]) > 0)
@@ -496,13 +496,13 @@ public class GdRegis extends Action {
             DevIo.drwCheck(options[O_Alert]);
             TView.clear();
             showTotal(0);
-            panel.jrnPicture("JRN_" + editNum(ctl.date, 4));
-            if (panel.journal.image == null)
-                panel.jrnPicture("JRN_0000");
+            GdPos.panel.jrnPicture("JRN_" + editNum(ctl.date, 4));
+            if (GdPos.panel.journal.image == null)
+                GdPos.panel.jrnPicture("JRN_0000");
             if (tra.isActive()) {
                 if (ctl.lan == 0)
                     if (netio.eodPoll(ctl.reg_nbr) > 0) {
-                        panel.clearLink(Mnemo.getMenu(18), 1);
+                        GdPos.panel.clearLink(Mnemo.getMenu(18), 1);
                     }
                 if (tra.code < 8) {
                     EftIo.eftTrans(false); /* cancel preswipe mode */

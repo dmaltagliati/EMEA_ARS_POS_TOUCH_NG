@@ -300,7 +300,7 @@ class WinEPTS extends EftIo {
 	private int eft_dialog(int base) {
 		int nbr, sts;
 
-		for (;; panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
+		for (;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
 			input.prompt = Mnemo.getText(15);
 			input.init(0x00, 1, 1, sts = 0);
 			SelDlg dlg = new SelDlg(Mnemo.getText(22));
@@ -308,7 +308,7 @@ class WinEPTS extends EftIo {
 			for (nbr = rcvMsg.scanHex(1); sts < nbr;) {
 				int type = rcvMsg.scanHex(1);
 				if (type == 0) {
-					panel.display(1, rcvMsg.scan(20));
+					GdPos.panel.display(1, rcvMsg.scan(20));
 					nbr--;
 				} else
 					dlg.add(9, editNum(++sts, 1), " " + rcvMsg.scan(20));
@@ -390,12 +390,12 @@ class WinEPTS extends EftIo {
 			if (code == 0xA4 || code == 0xA5) {
 				ec_err = (int) rcvMsg.scanNum(4);
 				if (code == 0xA5) {
-					panel.display(1, rcvMsg.scan(20));
-					panel.display(2, rcvMsg.scan(20));
+					GdPos.panel.display(1, rcvMsg.scan(20));
+					GdPos.panel.display(2, rcvMsg.scan(20));
 					gui.clearLink(Mnemo.getInfo(32), 0xA1);
-					panel.display(2, Mnemo.getInfo(23));
+					GdPos.panel.display(2, Mnemo.getInfo(23));
 				} else
-					panel.display(2, rcvMsg.scan(20));
+					GdPos.panel.display(2, rcvMsg.scan(20));
 				return FAIL_EFT;
 			}
 			if (code == 0xA6) /* Get String */
@@ -450,7 +450,7 @@ class WinEPTS extends EftIo {
 		if (code == 0xA3)
 			return 0;
 		if (code == 0xFF) {
-			panel.display(2, Mnemo.getInfo(23));
+			GdPos.panel.display(2, Mnemo.getInfo(23));
 			ec_err = 2222;
 			return FAIL_EFT;
 		}

@@ -873,7 +873,7 @@ class GdSales extends Action {
             logger.debug("Response code error: " + sts);
             //SPINNEYS-13032018-CGA#A BEG
             if (sts == 120) {
-                panel.clearLink(GdSpinneys.getInstance().getMsgError(), 1);
+                GdPos.panel.clearLink(GdSpinneys.getInstance().getMsgError(), 1);
                 return 0;
             }
             //SPINNEYS-13032018-CGA#A END

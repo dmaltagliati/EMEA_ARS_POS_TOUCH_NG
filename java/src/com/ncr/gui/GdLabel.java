@@ -286,6 +286,29 @@ public class GdLabel extends JLabel {
 		super.addMouseListener(l);
 	}
 
+	// MMS-JUNIT
+	public synchronized void addKeyListener(KeyListener l) {
+		UtilLog4j.logInformation(this.getClass(), "addKeyListener");
+		KeyListener[] keyListeners = (KeyListener[]) getListeners(KeyListener.class);
+
+		for (int i = 0; i < keyListeners.length; i++) {
+			super.removeKeyListener(keyListeners[i]);
+		}
+		super.addKeyListener(l);
+	}
+
+	public synchronized void addFocusListener(FocusListener l) {
+		UtilLog4j.logInformation(this.getClass(), "addFocusListener");
+		FocusListener[] focusListeners = (FocusListener[]) getListeners(FocusListener.class);
+
+		for (int i = 0; i < focusListeners.length; i++) {
+			super.removeFocusListener(focusListeners[i]);
+		}
+		super.addFocusListener(l);
+	}
+
+	// MMS-JUNIT
+
 	private String slidingString = "";
 	private int slidingLen = 0;
 	private int index;

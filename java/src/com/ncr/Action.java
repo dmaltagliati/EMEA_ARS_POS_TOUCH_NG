@@ -32,7 +32,7 @@ public abstract class Action extends Basis {
 	 ***************************************************************************/
 	//static void init(GdPos panel) {
 	static void initialize() {
-		gui = Action.panel;
+		//gui = Action.panel;
 
 		logger.debug("Initializing Actions");
 		group[0] = new GdSigns();
@@ -117,7 +117,7 @@ public abstract class Action extends Basis {
 			int key;
 			while (true) {
 				ExtResume.writeLogFile("Supervisor requested");
-				key = panel.clearLink(Mnemo.getInfo(108) + " " + resume, 0x83);
+				key = GdPos.panel.clearLink(Mnemo.getInfo(108) + " " + resume, 0x83);
 				if(!ExtResume.supervisor){
 					break;
 				}
@@ -164,12 +164,12 @@ public abstract class Action extends Basis {
 			if (netio.state < 3) {
 				ctl.lan = netio.state;
 				String s = ctl.lan == 1 ? "--//--" : netio.lanHost(SRV);
-				panel.dspStatus(1, s, true, ctl.lan == 2);
+				GdPos.panel.dspStatus(1, s, true, ctl.lan == 2);
 				DevIo.oplSignal(0, ctl.lan);
 			}
 		if (mon.autho > 0)
 			if ((input.lck & 0x04) > 0)
-				panel.innerVoice(input.CLEAR);
+				GdPos.panel.innerVoice(input.CLEAR);
 		if (mon.adv_rec >= 0)
 			Notes.advertize();
 		if ((++mon.tick & 3) > 0)
@@ -187,13 +187,13 @@ public abstract class Action extends Basis {
 				showTotal(-1);
 		}
 		if (mon.odisp >= 0) {
-			DevIo.oplDisplay(mon.odisp & 1, mon.odisp < 2 ? panel.dspArea[mon.odisp + 1].getText() : mon.opd_alt);
+			DevIo.oplDisplay(mon.odisp & 1, mon.odisp < 2 ? GdPos.panel.dspArea[mon.odisp + 1].getText() : mon.opd_alt);
 			mon.odisp ^= 2;
 		}
 		if (mon.money >= 0)
 			BcrIo.watch(mon.money);
 		if (DevIo.drwWatch(2))
-			panel.innerVoice(input.CLEAR);
+			GdPos.panel.innerVoice(input.CLEAR);
 		if (DevIo.scale.state > 0)
 			WghIo.control(DevIo.scale.state);
 		if ((input.tic & 5) == 0) {
@@ -201,31 +201,31 @@ public abstract class Action extends Basis {
 				if (mon.alert > 0)
 					DevIo.alert(1);
 		}
-		if (input.isEmpty() && panel.modal == null) {
+		if (input.isEmpty() && GdPos.panel.modal == null) {
 			if (event.menu == 0)
 				if (event.act > 0) {
 					int code = group[event.act / 10].exec();
 					if (code > 0)
-						panel.innerVoice(code);
+						GdPos.panel.innerVoice(code);
 				}
 		} else if (mon.lan99 > 0) {
 			if ((input.tic & 3) == 0)
 				if (lLAN.read(mon.lan99, 0) > 0)
 					if (lLAN.sts >= 90)
-						panel.innerVoice(input.CLEAR);
+						GdPos.panel.innerVoice(input.CLEAR);
 		} else if (mon.hocus > 0) {
 			if ((input.tic & 1) == 0)
 				if (HoCus.isReady())
-					panel.innerVoice(input.CLEAR);
+					GdPos.panel.innerVoice(input.CLEAR);
 		} else if (mon.image > 0) {
 			if (netio.isCopied(mon.image))
-				panel.innerVoice(input.CLEAR);
+				GdPos.panel.innerVoice(input.CLEAR);
 		} else if (mon.watch > 0) {
 			if ((input.tic & 3) == 0)
 				Notes.watch(0);
 		} else if (ctl.ckr_nbr == 0)
 			if (input.tic > 30)
-				panel.innerVoice(input.CLEAR);
+				GdPos.panel.innerVoice(input.CLEAR);
 		//WINEPTS-CGA#A BEG
 		if (eptsCheckDeltaMilliSec > 5000) {
 			eptsCheckDeltaMilliSec = 0;
@@ -313,7 +313,7 @@ public abstract class Action extends Basis {
 			logConsole(0, msg, "section base=" + editNum(event.base, 3) + " key=0x" + editHex(event.key, 4) + " spec="
 					+ editNum(event.spc, 4));
 			e.printStackTrace();
-			panel.clearLink(msg, 0x81);
+			GdPos.panel.clearLink(msg, 0x81);
 			return 7;
 		}
 	}
@@ -409,7 +409,7 @@ public abstract class Action extends Basis {
 		if (GdTsc.isStandardFidelity()) return;
 		int ind = (options[O_Custo] & 0x04) == 0 ? 39 : 0;
 		cusLine.init(Mnemo.getText(ind)).upto(20, editInt(value)).show(12);
-		panel.dspPoints(cusLine.toString());
+		GdPos.panel.dspPoints(cusLine.toString());
 	}
 
 	/***************************************************************************
@@ -420,7 +420,7 @@ public abstract class Action extends Basis {
 			input.lck &= 0xF0;
 			input.lck |= ctl.ckr_nbr < 800 && (input.lck & 0x10) == 0 ? 1 : 4;
 		}
-		panel.dspStatus(3, null, (input.lck & 0x10) > 0, (input.lck & 0x20) > 0);
+		GdPos.panel.dspStatus(3, null, (input.lck & 0x10) > 0, (input.lck & 0x20) > 0);
 		DevIo.oplSignal(4, (input.lck & 0x20) > 0 ? 2 : input.lck >> 2 & 1);
 		DevIo.oplSignal(5, input.lck >> 4 & 1);
 	}
@@ -537,16 +537,16 @@ public abstract class Action extends Basis {
 		while (line > 4) {
 			ind = --line - 4;
 			stsLine.init(vrs_tbl[ind]).upto(20, editVersion(version[ind], ind < 2));
-			panel.dspShopper(line, stsLine.toString());
+			GdPos.panel.dspShopper(line, stsLine.toString());
 		}
-		if (!panel.sinArea[0].isShowing()) {
-			panel.dspShopper(1, panel.sinArea[0].getText());
-			panel.dspShopper(2, panel.sinArea[1].getText());
-			panel.dspShopper(3, editTxt("[" + dspSins + "]", 42));
+		if (!GdPos.panel.sinArea[0].isShowing()) {
+			GdPos.panel.dspShopper(1, GdPos.panel.sinArea[0].getText());
+			GdPos.panel.dspShopper(2, GdPos.panel.sinArea[1].getText());
+			GdPos.panel.dspShopper(3, editTxt("[" + dspSins + "]", 42));
 		} else
 			while (--line > 0)
-				panel.dspShopper(line, null);
-		panel.dspShopper(0, null);
+				GdPos.panel.dspShopper(line, null);
+		GdPos.panel.dspShopper(0, null);
 		return 0;
 	}
 
@@ -557,7 +557,7 @@ public abstract class Action extends Basis {
 	 *            true=negative, false=no indication
 	 ***************************************************************************/
 	public static void showMinus(boolean b) {
-		panel.dspArea[1].setAlerted(b);
+		GdPos.panel.dspArea[1].setAlerted(b);
 	}
 
 	/***************************************************************************
@@ -566,20 +566,20 @@ public abstract class Action extends Basis {
 	public static void showShopper() {
 		LinIo info = new LinIo("INF", 0, 42);
 
-		panel.dspShopper(4, null);
+		GdPos.panel.dspShopper(4, null);
 		info.init(Mnemo.getText(54)).upto(22, editNum(cus.getSpec(), 2) + '/' + editNum(cus.getBranch(), 2))
 				.onto(24, Mnemo.getText(20)).push(editRate(cus.getRate()));
-		panel.dspShopper(5, info.toString());
+		GdPos.panel.dspShopper(5, info.toString());
 		info.init(Mnemo.getText(52)).upto(22, editMoney(0, cus.getLimchk())).onto(24, Mnemo.getText(50))
 				.push(editRate(cus.getDscnt()));
-		panel.dspShopper(6, info.toString());
+		GdPos.panel.dspShopper(6, info.toString());
 		info.init(Mnemo.getText(53)).upto(22, editMoney(0, cus.getLimcha())).onto(24, Mnemo.getText(51))
 				.push(editRate(cus.getExtra()));
-		panel.dspShopper(7, info.toString());
-		panel.dspShopper(3, cus.getCity());
-		panel.dspShopper(2, cus.getAdrs());
-		panel.dspShopper(1, cus.getNam2());
-		panel.dspShopper(0, cus.getName());
+		GdPos.panel.dspShopper(7, info.toString());
+		GdPos.panel.dspShopper(3, cus.getCity());
+		GdPos.panel.dspShopper(2, cus.getAdrs());
+		GdPos.panel.dspShopper(1, cus.getNam2());
+		GdPos.panel.dspShopper(0, cus.getName());
 	}
 
 	/***************************************************************************
@@ -705,7 +705,7 @@ public abstract class Action extends Basis {
 		if (items < lim && items > -lim)
 			return items;
 		stsLine.init(Mnemo.getText(63)).upto(20, editInt(items)).show(2);
-		panel.clearLink(Mnemo.getInfo(34), 0x81);
+		GdPos.panel.clearLink(Mnemo.getInfo(34), 0x81);
 		return 0;
 	}
 
@@ -725,7 +725,7 @@ public abstract class Action extends Basis {
 		if (halo == 0 || value <= limitBy(halo))
 			if (lalo == 0 || value >= limitBy(lalo))
 				return false;
-		return panel.clearLink(Mnemo.getInfo(46), 0x23) < 2;
+		return GdPos.panel.clearLink(Mnemo.getInfo(46), 0x23) < 2;
 	}
 
 	/***************************************************************************

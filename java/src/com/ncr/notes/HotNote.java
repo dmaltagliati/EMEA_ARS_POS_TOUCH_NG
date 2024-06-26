@@ -3,7 +3,7 @@ package com.ncr.notes;
 import com.ncr.Basis;
 import com.ncr.DevIo;
 import com.ncr.RmoteNEW;
-
+import com.ncr.GdPos;
 public class HotNote extends Basis implements Runnable {
     int recRcv = 0, recSnd = 0;
     RmoteNEW sNEW = new RmoteNEW(rNEW.id);
@@ -62,11 +62,11 @@ public class HotNote extends Basis implements Runnable {
             }
             if (mon.rcv_dsp != recRcv) {
                 mon.rcv_dsp = recRcv;
-                panel.dspNotes(0, mon.rcv_mon);
+                GdPos.panel.dspNotes(0, mon.rcv_mon);
             }
             if (mon.snd_dsp != recSnd) {
                 mon.snd_dsp = recSnd;
-                panel.dspNotes(1, mon.snd_mon);
+                GdPos.panel.dspNotes(1, mon.snd_mon);
             }
             int lamp = mon.snd_mon == null ? 0 : 1;
             DevIo.oplSignal(3, mon.rcv_mon == null ? lamp : 2);

@@ -7,6 +7,7 @@ import com.ncr.ecommerce.data.TenderProperties;
 import com.ncr.gui.SelDlg;
 import lombok.Getter;
 import org.apache.log4j.Logger;
+import com.ncr.GdPos;
 
 import java.io.*;
 import java.util.*;
@@ -480,7 +481,7 @@ public class ECommerce extends Action {
         if (ECommerceManager.getInstance().getBasket() == null) {  //INSTASHOP-MULTITENDER ADD
             input.prompt = Mnemo.getText(13);
             input.init(0x00, 1, 1, 0);
-            panel.display(1, Mnemo.getMenu(103));
+            GdPos.panel.display(1, Mnemo.getMenu(103));
 
             for (int i = 0; i < choiceList.size(); i++) {
                 dlg.add(9, editNum(i + 1, 1), " " + choiceList.get(i));
@@ -509,7 +510,7 @@ public class ECommerce extends Action {
             logger.error("Error: " + e);
 
             if (dlg.input.pb.isEmpty()) {
-                panel.clearLink(Mnemo.getInfo(8), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(8), 1);
                 return handleInstashopPayment();
             }
         }

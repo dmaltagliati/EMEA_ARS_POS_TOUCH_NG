@@ -9,7 +9,7 @@ import com.ncr.zatca.ZatcaManager;
  *******************************************************************/
 public abstract class Basis extends Table {
 	/** gui provider **/
-	public static GdPos panel;
+	//public static GdPos panel;
 	/** console input/echo control **/
 	public static final ConIo input = new ConIo(20);
 	/** event table access **/
@@ -105,7 +105,7 @@ public abstract class Basis extends Table {
 			if (ind < 1)
 				break;
 			for (int dev = sel; ind-- > 0; dev = 2) {
-				panel.display(2, center(name, 20, '*'));
+				GdPos.panel.display(2, center(name, 20, '*'));
 				if (dev == 4)
 					DevIo.slpInsert(0);
 				else if (dev == 2)
@@ -137,7 +137,7 @@ public abstract class Basis extends Table {
 	static void loyaltyStatus() {
 		if (!LoyaltyService.getService().isLoyaltyEnabled()) return;
 		String data = LoyaltyService.getService().isActive() ? LoyaltyService.getService().isOffline() ? "LOY OFF" : "LOYALTY" : "LOY DIS";
-		panel.dspStatus(4, data, LoyaltyService.getService().isActive(), LoyaltyService.getService().isOffline());
+		GdPos.panel.dspStatus(4, data, LoyaltyService.getService().isActive(), LoyaltyService.getService().isOffline());
 	}
 
 	/***************************************************************************
@@ -161,7 +161,7 @@ public abstract class Basis extends Table {
 			tra.tslp ^= value;
 			break;
 		}
-		panel.dspStatus(4, null, (tra.slip & 1) > 0, tra.tslp > 0);
+		GdPos.panel.dspStatus(4, null, (tra.slip & 1) > 0, tra.tslp > 0);
 		DevIo.oplSignal(2, tra.tslp > 0 ? 2 : tra.slip & 1);
 	}
 
@@ -464,7 +464,7 @@ public abstract class Basis extends Table {
 		if (line < 1)
 			mon.adv_rec = -1;
 		DevIo.cusDisplay(line, data);
-		panel.cid.display(line, data);
+		GdPos.panel.cid.display(line, data);
 	}
 
 	/***************************************************************************
@@ -480,7 +480,7 @@ public abstract class Basis extends Table {
 			mon.odisp = line &= 1;
 		if ((mon.opd_alt = msg) == null) {
 			if (mon.odisp < 2)
-				DevIo.oplDisplay(line, panel.dspArea[line + 1].getText());
+				DevIo.oplDisplay(line, GdPos.panel.dspArea[line + 1].getText());
 			mon.odisp = ERROR;
 		} else
 			DevIo.oplDisplay(line, msg);
@@ -504,7 +504,7 @@ public abstract class Basis extends Table {
 	 * @return true=Enter, false=Clear
 	 ***************************************************************************/
 	public static boolean acceptNbr(String hdr, int txt, int min, int max, int msk, int dec) {
-		for (int sts;; panel.clearLink(Mnemo.getInfo(sts), 1)) {
+		for (int sts;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
 			input.prompt = Mnemo.getText(txt);
 			input.init(0x00, max, msk, dec);
 			ModDlg dlg = new ModDlg(hdr);

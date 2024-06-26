@@ -235,13 +235,13 @@ public class PosGPE extends Action {
 
 				logger.info("crdSts: " + crdSts);
 				if (crdSts) {
-					panel.clearLink(Mnemo.getInfo(124), 1);
+					GdPos.panel.clearLink(Mnemo.getInfo(124), 1);
 				}
 			} while (crdSts);
 
 			logger.info("errorCode: " + errorCode);
 			if (errorCode > 0)
-				panel.clearLink(Mnemo.getInfo(errorCode), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(errorCode), 1);
 		}
 
 		logger.info("EXIT smartCardStatus");
@@ -342,12 +342,12 @@ public class PosGPE extends Action {
 				String displayError = errorDescription.length() > 20 ? errorDescription.substring(0, 20)
 						: errorDescription;
 
-				panel.display(2, displayError);
+				GdPos.panel.display(2, displayError);
 			} else {
-				panel.display(2, Mnemo.getInfo(errorCode));
+				GdPos.panel.display(2, Mnemo.getInfo(errorCode));
 			}
 		} else {
-			panel.display(2, "");
+			GdPos.panel.display(2, "");
 		}
 
 		executing = false;
@@ -547,9 +547,9 @@ public class PosGPE extends Action {
 
 			logger.info("active: " + active);
 			if (!active) {
-				panel.clearLink(Mnemo.getInfo(130), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(130), 1);
 			}
-			panel.dspStatus(5, "PINPAD", true, !active);
+			GdPos.panel.dspStatus(5, "PINPAD", true, !active);
 		}
 
 		logger.debug("EXIT checkPinPad");
@@ -562,9 +562,9 @@ public class PosGPE extends Action {
 			logger.info("withModal: " + withModal);
 
 			if (!active && withModal) {
-				panel.clearLink(Mnemo.getInfo(125), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(125), 1);
 			}
-			panel.updateEpts(active);
+			GdPos.panel.updateEpts(active);
 		}
 	}
 
@@ -734,13 +734,13 @@ public class PosGPE extends Action {
 			}
 
 			if (retv == 0) {
-				panel.clearLink(Mnemo.getMenu(101), 1);
+				GdPos.panel.clearLink(Mnemo.getMenu(101), 1);
 			} else {
-				panel.clearLink(Mnemo.getInfo(131), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(131), 1);
 				retv = 0;
 			}
 		} else {
-			panel.clearLink(Mnemo.getInfo(130), 1);
+			GdPos.panel.clearLink(Mnemo.getInfo(130), 1);
 		}
 
 		logger.info("retv: " + retv);

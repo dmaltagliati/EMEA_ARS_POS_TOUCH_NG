@@ -142,7 +142,7 @@ abstract public class DevIo extends Struc {
         if (prin.slpColumns > 60) {
             LinIo slpLine = new LinIo("SLP", 1, prin.recColumns == 44 ? 57 : 54);
             if (value > 999999)
-                gui.clearLink(Mnemo.getInfo(2), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(2), 1);
             slpLine.init(" *" + dig[5] + dig[4] + dig[3] + dig[2] + dig[1] + dig[0]).onto(35, tnd[ind].symbol)
                     .upto(51, amt).type(4);
             slpLine.init(' ').onto(12, tra.number).type(4);
@@ -153,7 +153,7 @@ abstract public class DevIo extends Struc {
         } else {
             LinIo slpLine = new LinIo("SLP", 1, 44);
             if (value > 9999)
-                gui.clearLink(Mnemo.getInfo(2), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(2), 1);
             slpLine.init(dig[3] + dig[2] + dig[1] + dig[0]).onto(23, tnd[ind].symbol).upto(40, amt).type(4);
             slpLine.init(tra.number).type(4);
             slpLine.init(chk_line).type(4);
@@ -173,7 +173,7 @@ abstract public class DevIo extends Struc {
         if (prin.paperState(2)) {
             logger.warn("Paper state error");
             if (!ECommerceManager.getInstance().isEnabled() || ECommerceManager.getInstance().getBasket() == null)
-                gui.clearLink(Mnemo.getInfo(12), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(12), 1);
         }
         if (prin.logo.exists())
             prin.write(2, "\u001b|1B");
@@ -187,7 +187,7 @@ abstract public class DevIo extends Struc {
                 prin.prn1.endInsertion();
                 break;
             } catch (JposException je) {
-                if (gui.clearLink(Mnemo.getInfo(18), 5) > 1) {
+                if (GdPos.panel.clearLink(Mnemo.getInfo(18), 5) > 1) {
                     mfptr.state = ERROR;
                     return;
                 }
@@ -200,7 +200,7 @@ abstract public class DevIo extends Struc {
         if (mfptr.state > 0)
             prin.waitIdle();
         else
-            gui.display(2, Mnemo.getInfo(23));
+            GdPos.panel.display(2, Mnemo.getInfo(23));
         while (true) {
             try {
                 prin.prn1.beginRemoval(2000);
@@ -209,10 +209,10 @@ abstract public class DevIo extends Struc {
             } catch (JposException je) {
                 if (je.getErrorCodeExtended() == prin.JPOS_EPTR_SLP_EMPTY)
                     break;
-                gui.clearLink(Mnemo.getInfo(19), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(19), 1);
             }
         }
-        gui.display(2, editTxt("", 20));
+        GdPos.panel.display(2, editTxt("", 20));
         mfptr.state = 0;
     }
 
@@ -280,7 +280,7 @@ abstract public class DevIo extends Struc {
         if (drw_state > 0)
             if (drwOpened()) {
                 drw_timer = ticks;
-                gui.clearLink(Mnemo.getInfo(10), (till_id & 0x11) > 0 ? 0x11 : 0x10);
+                GdPos.panel.clearLink(Mnemo.getInfo(10), (till_id & 0x11) > 0 ? 0x11 : 0x10);
                 drw_state = 0;
                 drw_timer = ERROR;
             }
@@ -291,7 +291,7 @@ abstract public class DevIo extends Struc {
         // power_check ();
         if (station(1)) {
             if (prin.paperState(1))
-                gui.clearLink(Mnemo.getInfo(11), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(11), 1);
         }
     }
 

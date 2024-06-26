@@ -168,7 +168,7 @@ class GdCusto extends Action {
             return;
         int sts = netio.copyF2f(path + "\\" + file, name, false);
         if (sts > 0)
-            panel.clearLink(Mnemo.getInfo(sts), 2);
+            GdPos.panel.clearLink(Mnemo.getInfo(sts), 2);
         else if (sts == 0)
             io.open(null, name, 0);
     }
@@ -301,7 +301,7 @@ class GdCusto extends Action {
             if (sts > 0) {
                 if ((lREG.tflg & 0x20) == 0)
                     return sts;
-                if (panel.clearLink(Mnemo.getInfo(40), 3) < 2)
+                if (GdPos.panel.clearLink(Mnemo.getInfo(40), 3) < 2)
                     return sts;
             } else {
                 if (cus.getBranch() > 2 && cus.getBranch() < 10) {
@@ -585,7 +585,7 @@ class GdCusto extends Action {
             if (itm.spec != 'C')
                 return 5;
         }
-        panel.jrnPicture(null);
+        GdPos.panel.jrnPicture(null);
         if (tra.stat > 2) {
             if ((options[O_Custo] & 0x01) > 0)
                 showShopper();

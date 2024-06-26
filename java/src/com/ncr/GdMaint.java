@@ -144,7 +144,7 @@ class GdMaint extends Action {
 
 		input.prompt = Mnemo.getText(15);
 		input.init(0x00, 1, 1, 0);
-		panel.display(1, Mnemo.getMenu(event.dec));
+		GdPos.panel.display(1, Mnemo.getMenu(event.dec));
 		SelDlg dlg = new SelDlg(Mnemo.getText(22));
 		while (sts < env.length) {
 			String s = System.getProperty(env[sts++]);
@@ -179,7 +179,7 @@ class GdMaint extends Action {
 		tra.tim = sec_time();
 		for (sel = tbl[sel - 1] * 10;;) {
 			input.init(0x00, 1, 1, 0);
-			panel.display(1, Mnemo.getDiag(ind = sel - 10));
+			GdPos.panel.display(1, Mnemo.getDiag(ind = sel - 10));
 			dlg = new SelDlg(Mnemo.getText(22));
 			while (++ind < sel) {
 				if (Mnemo.getDiag(ind).trim().length() < 1)
@@ -204,7 +204,7 @@ class GdMaint extends Action {
 				if (txt.trim().length() < 1)
 					sts = 7;
 				else {
-					panel.display(2, txt);
+					GdPos.panel.display(2, txt);
 					prtLine.init(txt);
 					if (sel == 10)
 						sts = EftIo.service(ind);
@@ -215,7 +215,7 @@ class GdMaint extends Action {
 					continue;
 				}
 			}
-			panel.clearLink(Mnemo.getInfo(sts), 0x81);
+			GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81);
 		}
 		accumReg(9, 3, 0, sec_diff(tra.tim));
 		return GdRegis.prt_trailer(1);
@@ -230,7 +230,7 @@ class GdMaint extends Action {
 		if (ctl.lan > 2)
 			return 7;
 		dspLine.init(Mnemo.getInfo(spec)).show(1);
-		for (;; panel.clearLink(Mnemo.getInfo(sts), 1)) {
+		for (;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
 			input.prompt = Mnemo.getText(3);
 			input.init(0x00, 3, 3, 0);
 			SelDlg dlg = new SelDlg(Mnemo.getText(22));

@@ -275,7 +275,7 @@ public class KnetEftPlugin extends GenericEftPlugin {
                         if (response instanceof EspTransactionResponse) {
                             break;
                         }
-                        panel.clearLink(((EspEventResponse) response).getEventId(), 0x80);
+                        GdPos.panel.clearLink(((EspEventResponse) response).getEventId(), 0x80);
                         response = receiveResponse();
                     }
 

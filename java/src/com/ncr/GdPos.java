@@ -131,6 +131,7 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
 
 
+
     private SscoPosManager posManager;
 
 
@@ -314,6 +315,7 @@ public class GdPos extends JPanel implements Runnable, Graphical, ActionListener
 
         int ind = 0;
 
+        trxView = new GdTView(12, 56, true);
         try {
             splashPanel = new SplashPanel();
             add(splashPanel);

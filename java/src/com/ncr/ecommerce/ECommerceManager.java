@@ -358,7 +358,7 @@ public class ECommerceManager extends Action {
         }
 
         if (Boolean.parseBoolean(props.getProperty(NOT_SOLD_WARNING, "false")) && !basket.getNotSoldItems().isEmpty()) {
-            panel.clearLink(Mnemo.getInfo(136), 1);
+            GdPos.panel.clearLink(Mnemo.getInfo(136), 1);
         }
 
         logger.debug("Exit");
@@ -470,9 +470,9 @@ public class ECommerceManager extends Action {
 
         try {
             if (isEnabled() && Struc.ctl.ckr_nbr != 0) {
-                if (panel.modal != null) {
-                    if (panel.modal instanceof ClrDlg) {
-                        ClrDlg dlg = (ClrDlg) panel.modal;
+                if (GdPos.panel.modal != null) {
+                    if (GdPos.panel.modal instanceof ClrDlg) {
+                        ClrDlg dlg = (ClrDlg) GdPos.panel.modal;
                         if (dlg.getTitle().toUpperCase(Locale.ENGLISH).contains("PRINTER")) errorCode = 102;
                         //if (dlg.info.text.toUpperCase(Locale.ENGLISH).contains("PRINTER")) errorCode = 102;
                     }

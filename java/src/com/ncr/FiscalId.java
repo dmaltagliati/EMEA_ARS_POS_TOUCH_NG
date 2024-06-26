@@ -28,7 +28,7 @@ abstract class FiscalId extends Basis {
 		input.prompt = "";
 		input.init(0x10, len, len, 0);
 		input.alpha = kbd_alpha[3]; /* DABC3 = keyboard for Fiscal Id */
-		for (int sts;; panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
+		for (int sts;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81)) {
 			AbcDlg dlg = new AbcDlg("Alphanumeric Keyboard");
 			input.reset(input.pb);
 			dlg.show("ABC");

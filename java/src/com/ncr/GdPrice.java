@@ -275,8 +275,8 @@ public class GdPrice extends Action {
 	static int chk_serial() {
 		if (plu.serial.length() > 0)
 			return 0;
-		panel.display(1, plu.text);
-		panel.dspPicture("DPT_" + editKey(plu.dpt_nbr, 4));
+		GdPos.panel.display(1, plu.text);
+		GdPos.panel.dspPicture("DPT_" + editKey(plu.dpt_nbr, 4));
 		if (!acceptNbr(Mnemo.getInfo(64), 76, 1, 20, 0, 0))
 			return 5;
 		plu.serial = input.pb;
@@ -422,9 +422,9 @@ public class GdPrice extends Action {
 		if (ptr.qty > 0)
 			return 0;
 		DevIo.alert(0);
-		panel.display(1, ptr.text);
-		panel.dspPicture("DPT_" + editKey(ptr.dpt_nbr, 4));
-		for (;; panel.clearLink(Mnemo.getInfo(sts), 1)) {
+		GdPos.panel.display(1, ptr.text);
+		GdPos.panel.dspPicture("DPT_" + editKey(ptr.dpt_nbr, 4));
+		for (;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
 			input.prompt = Mnemo.getText(35);
 			input.init(0x00, 3, 3, 0);
 			ModDlg dlg = new ModDlg(Mnemo.getInfo(43));
@@ -541,13 +541,13 @@ public class GdPrice extends Action {
 				if ((ptr.flg2 & F_MEMBER) > 0)
 					return 58;
 				if ((ptr.flg2 & F_EXPIRY) > 0) {
-					if (panel.clearLink(Mnemo.getInfo(65), 3) < 2)
+					if (GdPos.panel.clearLink(Mnemo.getInfo(65), 3) < 2)
 						return 7;
 				}
 			}
 		if (ctl.ckr_age > 0) {
 			if (ctl.tooYoung(ckr_age[ptr.ages], ctl.ckr_age)) {
-				panel.display(2, ptr.text);
+				GdPos.panel.display(2, ptr.text);
 				sts = GdSigns.chk_autho(Mnemo.getInfo(57));
 				if (sts > 0)
 					return sts;
@@ -556,8 +556,8 @@ public class GdPrice extends Action {
 		if (cus_age[ptr.ages] > 0) {
 			if (tra.age == 0)
 				DevIo.alert(0);
-			for (; tra.age == 0; panel.clearLink(Mnemo.getInfo(sts), 1)) {
-				panel.display(1, Mnemo.getInfo(57));
+			for (; tra.age == 0; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
+				GdPos.panel.display(1, Mnemo.getInfo(57));
 				input.prompt = Mnemo.getText(72);
 				input.init(0x00, 6, 6, 0);
 				ModDlg dlg = new ModDlg(ptr.text);
@@ -586,7 +586,7 @@ public class GdPrice extends Action {
 				sts = 8;
 			}
 			if (ctl.tooYoung(cus_age[ptr.ages], cus.getAge())) {
-				panel.display(2, ptr.text);
+				GdPos.panel.display(2, ptr.text);
 				return 57;
 			}
 		}
@@ -598,10 +598,10 @@ public class GdPrice extends Action {
 			return false;
 		if (itm.price == 0 || itm.prlbl > 0)
 			return false;
-		panel.dspPicture("DPT_" + editKey(itm.dpt_nbr, 4));
-		panel.display(1, itm.text);
+		GdPos.panel.dspPicture("DPT_" + editKey(itm.dpt_nbr, 4));
+		GdPos.panel.display(1, itm.text);
 		stsLine.init(Mnemo.getText(36)).upto(20, editDec(itm.price, tnd[0].dec)).show(2);
-		return panel.clearLink(Mnemo.getInfo(txt), 0x23) < 2;
+		return GdPos.panel.clearLink(Mnemo.getInfo(txt), 0x23) < 2;
 	}
 
 	static void scan_ean() {
@@ -849,7 +849,7 @@ public class GdPrice extends Action {
 					editMoney(0, set_price(itm, itm.price)));
 		stsLine.init(itm.text).show(1);
 		oplLine.show(2);
-		panel.dspPicture("DPT_" + editKey(itm.dpt_nbr, 4));
+		GdPos.panel.dspPicture("DPT_" + editKey(itm.dpt_nbr, 4));
 		PluDlg dlg = new PluDlg(Mnemo.getMenu(57));
 		//dlg.labl.setBars(input.pb);
 		prtLine.init(' ').push('x' + editHex(itm.flag, 2)).push(editTxt(itm.sit, 3) + editTxt(itm.vat, 4))
@@ -936,7 +936,7 @@ public class GdPrice extends Action {
 			logger.debug("Response code error: " + ind);
 			//SPINNEYS-13032018-CGA#A BEG
 			if (ind == 120) {
-				panel.clearLink(GdSpinneys.getInstance().getMsgError(), 1);
+				GdPos.panel.clearLink(GdSpinneys.getInstance().getMsgError(), 1);
 				return 0;
 			}
 			//SPINNEYS-13032018-CGA#A END
@@ -1211,7 +1211,7 @@ public class GdPrice extends Action {
 				if (dir_tbl[spec - 1] == -2) /* DESK */
 				{
 					input.sel = -1;
-					panel.dyna.setTouch(s.substring(12));
+					GdPos.panel.dyna.setTouch(s.substring(12));
 				} else
 					input.sel = Integer.parseInt(s.substring(14));
 				event.nxt = event.base;
@@ -1359,14 +1359,14 @@ public class GdPrice extends Action {
 			}
 
 			if (ind > 0) {
-				panel.clearLink(Mnemo.getInfo(ind), 0x81);
+				GdPos.panel.clearLink(Mnemo.getInfo(ind), 0x81);
 				return group[4].action0(0); // GdSales.action0 == ItmClear
 			}
 		}
 
 		if (GiftCardPluginManager.getInstance().isGiftCard(itm)) {
 			if ((itm.spf1 & M_RETURN) > 0) {
-				panel.clearLink(Mnemo.getInfo(7), 0x81);
+				GdPos.panel.clearLink(Mnemo.getInfo(7), 0x81);
 				return group[4].action0(0); // GdSales.action0 == ItmClear
 			}
 			if ((itm.spf1 & M_VOID) > 0) {
@@ -1381,7 +1381,7 @@ public class GdPrice extends Action {
 
 			if (ind > 0 ) {
 				if(GiftCardPluginManager.getInstance().isEnabled() && GiftCardPluginManager.getInstance().isGiftCard(itm)){
-					panel.clearLink(Mnemo.getInfo(ind), 0x81);
+					GdPos.panel.clearLink(Mnemo.getInfo(ind), 0x81);
 				}
 				return group[4].action0(0); // GdSales.action0 == ItmClear
 			}
@@ -1394,7 +1394,7 @@ public class GdPrice extends Action {
 
 			/*if (ind > 0 ) {
 				if(GdPsh.getInstance().isEnabled() && GdPsh.getInstance().isGiftCard(itm)){
-					panel.clearLink(Mnemo.getInfo(ind), 0x81);
+					GdPos.panel.clearLink(Mnemo.getInfo(ind), 0x81);
 				}
 				return group[4].action0(0); // GdSales.action0 == ItmClear
 			}
@@ -1416,7 +1416,7 @@ public class GdPrice extends Action {
             if ((itm.spf1 & M_RETURN) > 0) {
                 logger.info("return item - error message to display");
 
-                panel.clearLink(Mnemo.getInfo(7), 0x81);
+                GdPos.panel.clearLink(Mnemo.getInfo(7), 0x81);
                 return group[4].action0(0); // GdSales.action0 == ItmClear
             }
             if ((itm.spf1 & M_VOID) > 0) {
@@ -1426,7 +1426,7 @@ public class GdPrice extends Action {
 
                 if (ind > 0) {
                     logger.info("response > 0 - error message to display");
-                    panel.clearLink(Mnemo.getInfo(ind), 0x81);
+                    GdPos.panel.clearLink(Mnemo.getInfo(ind), 0x81);
 
                     return group[4].action0(0); // GdSales.action0 == ItmClear
                 }
@@ -1448,7 +1448,7 @@ public class GdPrice extends Action {
 
                 if (ind > 0) {
                     logger.info("response > 0 - error message to display");
-                    panel.clearLink(Mnemo.getInfo(ind), 0x81);
+                    GdPos.panel.clearLink(Mnemo.getInfo(ind), 0x81);
 
                     return group[4].action0(0); // GdSales.action0 == ItmClear
                 } else {
@@ -1512,7 +1512,7 @@ public class GdPrice extends Action {
 				input.reset(String.valueOf(itm.link));
 				if ((ind = scan_ref()) > 0) {
 					itm.link = 0;
-					panel.clearLink(Mnemo.getInfo(ind), 0x81);
+					GdPos.panel.clearLink(Mnemo.getInfo(ind), 0x81);
 				} else if (vat[ref.vat].flat > 0) /* environmental tax */
 				{
 					itm.flat = ref.vat;
@@ -1552,7 +1552,7 @@ public class GdPrice extends Action {
 				return 7;
 			String name = "LAST_BOX.TMP";
 			String path = System.getProperty("BOX", "inq") + "\\" + nbr;
-			panel.display(2, Mnemo.getInfo(26));
+			GdPos.panel.display(2, Mnemo.getInfo(26));
 			if ((sts = netio.copyF2f(path + ".BOX", name, true)) != 0)
 				return sts < 0 ? 7 : sts;
 			lBOX.open(null, name, 0);
@@ -1679,14 +1679,14 @@ public class GdPrice extends Action {
 					input.reset(editKey(dct.slm_nbr, 4));
 					if ((sts = group[3].action6(0)) > 0) {
 						dspLine.init(' ').show(1);
-						panel.clearLink(Mnemo.getInfo(sts), 1);
+						GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
 					}
 				} else if (dci.stat == 2) {
 					input.prompt = Mnemo.getText(15);
 					input.reset(dci.number.trim());
 					if ((sts = group[2].action0(15)) > 0) {
 						dspLine.init(' ').show(1);
-						panel.clearLink(Mnemo.getInfo(sts), 1);
+						GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
 					}
 				} else {
 					if ((sts = lIDC.read(rec++, sel)) < 1)
@@ -1846,7 +1846,7 @@ public class GdPrice extends Action {
 		}
 		if (sts < 1) {
 			if (sts < 0)
-				panel.clearLink(Mnemo.getInfo(16), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(16), 1);
 			prtLine.init(Mnemo.getInfo(23)).book(3);
 		}
 		itm = new Itemdata();

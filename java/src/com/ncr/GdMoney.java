@@ -160,7 +160,7 @@ class GdMoney extends Action {
         if (sel == ctl.reg_nbr)
             sel = LOCAL;
         if ((rec = Magic.src_frec(tran, sel)) < 0) {
-            if (panel.clearLink(Mnemo.getInfo(16), 3) < 2)
+            if (GdPos.panel.clearLink(Mnemo.getInfo(16), 3) < 2)
                 return 7;
             dspLine.init(Mnemo.getText(GiftCardPluginManager.getInstance().isGiftCard(itm) ? 115 : 30)).upto(20, itm.number);
             return 0;
@@ -234,7 +234,7 @@ class GdMoney extends Action {
         if (GiftCardPluginManager.getInstance().isGiftCard(itm)) {
             int sts;
             if ((sts = GiftCardPluginManager.getInstance().cancelGiftCard(itm)) > 0) {
-                panel.clearLink(Mnemo.getInfo(sts), 0x81);
+                GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x81);
             }
         }
         itm.mark = Mnemo.getText(60).charAt(6);

@@ -162,7 +162,7 @@ public class ZatcaManager extends Action {
     public void zatcaStatus() {
         if (!isEnabled()) return;
         String data = isNotInitialized() ?  "ZAT DIS" : isOffline() ? "ZAT OFF" : "ZATCA";
-        panel.dspStatus(5, data, !isNotInitialized(), isOffline());
+        GdPos.panel.dspStatus(5, data, !isNotInitialized(), isOffline());
     }
 
     public boolean isOffline() {
@@ -192,9 +192,9 @@ public class ZatcaManager extends Action {
                 break;
             } else {
                 if (StatusType.UNKNOWN.equals(currentStatus.getStatus())) {
-                    if (panel.clearLink(Mnemo.getInfo(160), 5) == 2) break;
+                    if (GdPos.panel.clearLink(Mnemo.getInfo(160), 5) == 2) break;
                 } else if (StatusType.NOT_INITIALIZED.equals(currentStatus.getStatus())) {
-                    if (panel.clearLink(Mnemo.getInfo(161), 5) == 2) break;
+                    if (GdPos.panel.clearLink(Mnemo.getInfo(161), 5) == 2) break;
                     zatcaPlugin.init(props, terminalInfo);
                 } else break;
             }
@@ -411,7 +411,7 @@ public class ZatcaManager extends Action {
                 logger.debug("B2B ok");
             } else {
                 logger.debug("B2B error");
-                panel.clearLink(b2bStatus.getMessage(), 1);
+                GdPos.panel.clearLink(b2bStatus.getMessage(), 1);
             }
             b2bTransaction = false;
             b2bCustomer = null;
@@ -490,7 +490,7 @@ public class ZatcaManager extends Action {
                         SscoPosManager.getInstance().sendDataNeeded("ZatcaMessage");
                         break;
                     } else {
-                        if (2 == panel.clearLink(Mnemo.getInfo(147), 0x82)) break;
+                        if (2 == GdPos.panel.clearLink(Mnemo.getInfo(147), 0x82)) break;
                     }
                 }
                 prtBlockDwide(ELJRN + 3, zmsg_txt, 0, 3);

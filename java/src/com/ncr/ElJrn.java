@@ -9,7 +9,7 @@ import java.util.Set;
 
 public abstract class ElJrn extends Basis {
     public static void view(boolean append) {
-        GdElJrn area = panel.journal;
+        GdElJrn area = GdPos.panel.journal;
         int rec, rows = area.rows;
 
         if (append) {
@@ -33,12 +33,12 @@ public abstract class ElJrn extends Basis {
             area.list[ind] = lJRN.read(rec + ind) > 0 ? lJRN.pb : null;
         }
         area.repaint();
-        panel.jrnPicture(null);
+        GdPos.panel.jrnPicture(null);
     }
 
     public static int roll(int vkey) {
         if (ctl.view == 0) {
-            if (panel.journal.scroll(vkey))
+            if (GdPos.panel.journal.scroll(vkey))
                 view(false);
         } else
             TView.scroll(vkey);
@@ -50,7 +50,7 @@ public abstract class ElJrn extends Basis {
             return 5;
         if ((options[O_ElJrn] & 0x08) == 0)
             return 7;
-        panel.pnlRoll.toFront(ctl.view ^= 1);
+        GdPos.panel.pnlRoll.toFront(ctl.view ^= 1);
         if (ctl.view > 0)
             TView.select();
         return 0;

@@ -185,7 +185,7 @@ public class OglobaPlugin extends GiftCardPlugin {
                 return MNEMO_ERROR_BASE;
             } else {
                 if (!SscoPosManager.getInstance().isEnabled())
-                    panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
+                    GdPos.panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
                 logger.debug("Exit activationGiftCard ");
                 return Integer.parseInt(SERVER_ERROR_CODE);
             }
@@ -242,7 +242,7 @@ public class OglobaPlugin extends GiftCardPlugin {
                 return MNEMO_ERROR_BASE;
             } else {
                 if (!SscoPosManager.getInstance().isEnabled())
-                    panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
+                    GdPos.panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
                 logger.debug("Exit " + SERVER_ERROR_CODE);
                 return Integer.parseInt(SERVER_ERROR_CODE);
             }
@@ -272,7 +272,7 @@ public class OglobaPlugin extends GiftCardPlugin {
         if (!response.isSuccess()) {
             logger.debug("Exit ReconciliationGiftCard ");
             if (!SscoPosManager.getInstance().isEnabled())
-                panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
+                GdPos.panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
             return Integer.parseInt(response.getErrorCode());
         }
         return 0;
@@ -371,7 +371,7 @@ public class OglobaPlugin extends GiftCardPlugin {
                 return MNEMO_ERROR_BASE;
             } else {
                 if (!SscoPosManager.getInstance().isEnabled())
-                    panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
+                    GdPos.panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
                 logger.debug("Exit RefundGiftCard ");
                 return Integer.parseInt(SERVER_ERROR_CODE);
             }
@@ -436,8 +436,8 @@ public class OglobaPlugin extends GiftCardPlugin {
             logger.debug("ERROR CANCELLING GIFT CARD : " + maskErrorCode(response.getErrorCode(), response.getErrorMessage()));
             logger.debug("GIFT CARD CANCELLATION WILL BE DONE BY OGLOBA SERVER DURING RECONCILIATION");
             if (!SscoPosManager.getInstance().isEnabled()) {
-                panel.clearLink(maskErrorCode(response.getErrorCode(), response.getErrorMessage()), 0x80);
-                panel.clearLink("CANCEL. WILL BE DONE DURING RECONCILIATION", 0x80);
+                GdPos.panel.clearLink(maskErrorCode(response.getErrorCode(), response.getErrorMessage()), 0x80);
+                GdPos.panel.clearLink("CANCEL. WILL BE DONE DURING RECONCILIATION", 0x80);
             }
             return Integer.parseInt(response.getErrorCode());
         }
@@ -459,7 +459,7 @@ public class OglobaPlugin extends GiftCardPlugin {
         } else {
             logger.debug("Exit confirmationTransaction");
             if (!SscoPosManager.getInstance().isEnabled())
-                panel.clearLink(maskErrorCode(response.getErrorCode(), response.getErrorMessage()), 0x81);
+                GdPos.panel.clearLink(maskErrorCode(response.getErrorCode(), response.getErrorMessage()), 0x81);
             return Integer.parseInt(response.getErrorCode());
         }
     }
@@ -497,7 +497,7 @@ public class OglobaPlugin extends GiftCardPlugin {
                 return MNEMO_ERROR_BASE;
             } else {
                 if (!SscoPosManager.getInstance().isEnabled())
-                    panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
+                    GdPos.panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
                 logger.debug("Exit RedemptionGiftCard ");
                 return 156;
             }
@@ -626,7 +626,7 @@ public class OglobaPlugin extends GiftCardPlugin {
         if (!response.isSuccess()) {
             logger.debug("Exit ReconciliationGiftCard ");
             if (!SscoPosManager.getInstance().isEnabled())
-                panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
+                GdPos.panel.clearLink(errorCodesMap.get(response.getErrorCode()) != null ? errorCodesMap.get(response.getErrorCode()) : response.getErrorCode() + " - " + response.getErrorMessage(), 0x81);
             return Integer.parseInt(response.getErrorCode());
         }
         return 0;

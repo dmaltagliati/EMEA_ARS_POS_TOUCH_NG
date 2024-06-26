@@ -74,7 +74,7 @@ abstract class HoCus extends Basis {
 		if (mon.hocus < 0)
 			return 0;
 		mon.hocus = 1;
-		int sts = panel.clearLink(Mnemo.getInfo(26), 0x81);
+		int sts = GdPos.panel.clearLink(Mnemo.getInfo(26), 0x81);
 		mon.hocus = -1;
 		if (sts >= 0) {
 			cancel(rHCA.recno);

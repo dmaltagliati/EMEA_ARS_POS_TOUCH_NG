@@ -44,6 +44,8 @@ public class KeyPadButton extends GdLabel {
 				return;
 			}
 
+			keyChar = (char) keyCode;
+
 			// Delay di un secondo prima di premere nuovamente il tasto per evitare
 			// di fare un doppio storno o doppia vendita
 			if (keyCode == ConIo.VOIDCURRENT || keyCode == ConIo.SELLCURRENT) {

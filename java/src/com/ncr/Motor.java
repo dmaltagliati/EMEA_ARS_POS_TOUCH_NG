@@ -124,7 +124,8 @@ public class Motor extends DatIo implements Runnable {
 
 	public void main(int sts) {
 		int line = base, dyna = input.dky;
-		GdPos panel = Action.panel;
+		//GdPos panel = Action.panel;
+		GdPos panel = GdPos.panel;
 		logger.debug("Code: " + sts);
 		if (sts == 0) {
 			if (dyna == Action.get_state(lck & 0x0F))

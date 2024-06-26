@@ -414,7 +414,7 @@ public class LinIo extends FmtIo {
 	 *            combination of print stations (1=journal 2=receipt 4=slip 8=validation 16=electronic journal)
 	 ***************************************************************************/
 	public void type(int station) {
-		gui.print(station, toString());
+		GdPos.panel.print(station, toString());
 	}
 
 	/***************************************************************************

@@ -31,6 +31,27 @@ public class ModalMainThread extends Thread {
 
         UtilLog4j.logInformation(this.getClass(), "Started!");
 
+        Iterator keyEventListIterator = keyEventList.iterator();
+        while (keyEventListIterator.hasNext()) {
+            KeyEvent e = (KeyEvent) keyEventListIterator.next();
+
+            int code = Action.input.keyBoard(e);
+
+            UtilLog4j.logInformation(this.getClass(), "[" + KeyEvent.getKeyText(e.getKeyCode()) + "]" + "[0x"
+                    + Integer.toHexString(Action.input.key) + "]" + "input.pb = " + Action.input.pb);
+
+            if (GdPos.panel.modal != null) {
+
+                if (e.getWhen() > 0) {
+                    if (code >= 0) {
+                        GdPos.panel.modal.modalMain(code);
+                    }
+                } else {
+                    GdPos.panel.modal.modalMain(-1);
+                }
+            }
+        }
+
         GdPos.panel.interruptWaitTread();
         if (GdPos.panel.modal == null) {
             if (GdPos.panel.executorCompletionService.poll() != null) { // FLM-THREADS#A
@@ -39,5 +60,4 @@ public class ModalMainThread extends Thread {
         }
         UtilLog4j.logInformation(this.getClass(), "Ended!");
     }
-
 }

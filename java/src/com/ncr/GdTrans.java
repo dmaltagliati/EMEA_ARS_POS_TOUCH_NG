@@ -751,7 +751,7 @@ public class GdTrans extends Action {
 
         if (spec > 0) {
             if (input.num == 0) {
-                panel.jrnPicture(null);
+                GdPos.panel.jrnPicture(null);
                 dspLine.init(' ');
                 return 0;
             }
@@ -764,7 +764,7 @@ public class GdTrans extends Action {
             Match.rbt_total(lCIN);
             Match.rbt_total(lCGR);
             Match.rbt_total(lRLU);
-            panel.jrnPicture(itm.spf2 > 0 ? "JRN_SAVE" : null);
+            GdPos.panel.jrnPicture(itm.spf2 > 0 ? "JRN_SAVE" : null);
             dspBmap = "DPT_0000";
             return itm_clear();
         }
@@ -849,7 +849,7 @@ public class GdTrans extends Action {
         for (ind = vat.length; ind-- > 0; vat[ind].reset())
             accumTax(10, ind, 0, -vat[ind].tld_amt);
         tra.tld_amt = 0;
-        panel.jrnPicture(null);
+        GdPos.panel.jrnPicture(null);
         dspBmap = "DPT_0000";
         dspLine.init(Mnemo.getText(23)).upto(20, editMoney(0, tra.amt));
         cusLine.init(Mnemo.getText(23)).show(10);
@@ -931,7 +931,7 @@ public class GdTrans extends Action {
             dspLine.init(Mnemo.getMenu(77)).show(10);
         //WINEPTS-CGA#A BEG
         if (WinEPTSVoucherManager.thereIsVoucher()) {
-            panel.clearLink(Mnemo.getInfo(132), 1);
+            GdPos.panel.clearLink(Mnemo.getInfo(132), 1);
             PosGPE.deleteEptsVoidFlag();
         }
         //WINEPTS-CGA#A END

@@ -132,7 +132,7 @@ public class GdUmniah extends Action {
                     String error = authenticateResponse.getError().getMessage().length() > 20
                             ? authenticateResponse.getError().getMessage().substring(0, 17) + ".."
                             : authenticateResponse.getError().getMessage();
-                    panel.clearLink(error, 1);
+                    GdPos.panel.clearLink(error, 1);
                     return 0;
                 } else {
                     token = authenticateResponse.getData().getToken();
@@ -149,7 +149,7 @@ public class GdUmniah extends Action {
                     String error = denominationsResponse.getErrorDesc().length() > 20
                             ? denominationsResponse.getErrorDesc().substring(0, 17) + ".."
                             : denominationsResponse.getErrorDesc();
-                    panel.clearLink(error, 1);
+                    GdPos.panel.clearLink(error, 1);
                     return 0;
                 } else {
                     //ottengo il taglio selezionato
@@ -169,7 +169,7 @@ public class GdUmniah extends Action {
                         String error = pinResponse.getErrorDesc().length() > 20
                                 ? pinResponse.getErrorDesc().substring(0, 17) + ".."
                                 : pinResponse.getErrorDesc();
-                        panel.clearLink(error, 1);
+                        GdPos.panel.clearLink(error, 1);
 
                         return 0;
                     }

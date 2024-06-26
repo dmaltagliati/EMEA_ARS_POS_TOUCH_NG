@@ -31,7 +31,7 @@ public class GdSigns extends Action {
 		if (!input.isLockPos(0x04)) {
 			if (text != null)
 				stsLine.init(text).show(1);
-			panel.clearLink(Mnemo.getInfo(56), mon.autho = 0x21);
+			GdPos.panel.clearLink(Mnemo.getInfo(56), mon.autho = 0x21);
 			mon.autho = 0;
 			if ((input.lck & 0x04) == 0)
 				return 1;
@@ -43,7 +43,7 @@ public class GdSigns extends Action {
 			lCTL.update();
 		input.prompt = Mnemo.getText(2);
 		input.init(0x00, 3, 3, 0);
-		panel.display(1, Mnemo.getInfo(38));
+		GdPos.panel.display(1, Mnemo.getInfo(38));
 		SelDlg dlg = new SelDlg(Mnemo.getText(22));
 		for (rec = 0; lCTL.read(++rec, lCTL.LOCAL) > 0;) {
 			if (lCTL.key < 800 || lCTL.key > 999)
@@ -109,7 +109,7 @@ public class GdSigns extends Action {
 		lCTL.read(ctl.ckr, lCTL.LOCAL);
 		for (int sts; (sts = chk_passwd(Mnemo.getMenu(27))) > 0;) {
 			if (input.key != input.CLEAR)
-				panel.clearLink(Mnemo.getInfo(sts), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
 			else if ((input.lck & 2) > 0)
 				break;
 		}
@@ -123,7 +123,7 @@ public class GdSigns extends Action {
 		}
 		if (lCTL.sec == 0)
 			return 0;
-		panel.display(1, msg);
+		GdPos.panel.display(1, msg);
 		int sts = BirIo.verify("CKR_" + editNum(lCTL.key, 4));
 		if (sts >= 0)
 			return sts;
@@ -142,7 +142,7 @@ public class GdSigns extends Action {
 		int len = 4;
 
 		if (msg != null)
-			panel.display(1, msg);
+			GdPos.panel.display(1, msg);
 
 		input.prompt = Mnemo.getText(73);
 		input.init(0x40, len, len, 0);
@@ -181,7 +181,7 @@ public class GdSigns extends Action {
 				else if (hot_passwd(sec))
 					sts = 8;
 				if (sts == 0)
-					for (;; panel.clearLink(Mnemo.getInfo(sts), 1)) {
+					for (;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
 						sts = get_passwd(Mnemo.getInfo(40));
 						if (input.key == input.CLEAR)
 							break;
@@ -193,7 +193,7 @@ public class GdSigns extends Action {
 					}
 			}
 			if (input.key != input.CLEAR) {
-				panel.clearLink(Mnemo.getInfo(sts), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
 			}
 		}
 	}
@@ -273,7 +273,7 @@ public class GdSigns extends Action {
 				}
 			input.prompt = Mnemo.getText(event.alt);
 			input.init(0x00, event.max, event.min, event.dec);
-			panel.display(1, Mnemo.getMenu(event.act));
+			GdPos.panel.display(1, Mnemo.getMenu(event.act));
 			SelDlg dlg = new SelDlg(Mnemo.getText(22));
 			for (code = event.next(line); event.key > 0; code = event.next(code)) {
 				dlg.add(8, editNum(event.key, input.max),
@@ -314,7 +314,7 @@ public class GdSigns extends Action {
 			if (netio.isCopied(mon.image = lIDC.getSize()))
 				break;
 			if (!SscoPosManager.getInstance().isEnabled())
-				panel.clearLink(Mnemo.getInfo(26), 0x14);
+				GdPos.panel.clearLink(Mnemo.getInfo(26), 0x14);
 			if (ctl.lan > 0)
 				break;
 		}
@@ -389,14 +389,14 @@ public class GdSigns extends Action {
 		if (lCTL.lck > 0) {
 			if (lCTL.lck != 2)
 				return 7;
-			panel.display(1, Mnemo.getInfo(55));
-			if (panel.clearLink(Mnemo.getInfo(40), 0x23) < 2)
+			GdPos.panel.display(1, Mnemo.getInfo(55));
+			if (GdPos.panel.clearLink(Mnemo.getInfo(40), 0x23) < 2)
 				return 7;
 		}
 		if (lCTL.sts == 1)
 			if (lCTL.reg != ctl.reg_nbr) {
 				stsLine.init(Mnemo.getInfo(37)).upto(20, editKey(lCTL.reg, 3)).show(1);
-				panel.clearLink(Mnemo.getInfo(7), 0x21);
+				GdPos.panel.clearLink(Mnemo.getInfo(7), 0x21);
 				return 7;
 			}
 		if (lCTL.pin > 0) {
@@ -479,7 +479,7 @@ public class GdSigns extends Action {
 			String name = "CKR_" + editNum(nbr, 4);
 			int sts = BirIo.enroll(name);
 			if (sts > 0)
-				panel.clearLink(Mnemo.getInfo(sts), 0x91);
+				GdPos.panel.clearLink(Mnemo.getInfo(sts), 0x91);
 			if (sts == 0)
 				BirIo.collect(name);
 		} else
@@ -510,7 +510,7 @@ public class GdSigns extends Action {
 		logger.info("check isEptsVoidFlagPresent()");
 		if (PosGPE.isEptsVoidFlagPresent()) {
 			logger.info("isEptsVoidFlagPresent true");
-			panel.clearLink(Mnemo.getInfo(132), 1);
+			GdPos.panel.clearLink(Mnemo.getInfo(132), 1);
 			PosGPE.deleteEptsVoidFlag();
 		}
 		//WINEPTS-CGA#A END
@@ -591,7 +591,7 @@ public class GdSigns extends Action {
 			// EMEA-UPB-DMA END
 		}
 		ctl.ckr_nbr = 0;
-		panel.jrnPicture("CLOSE");
+		GdPos.panel.jrnPicture("CLOSE");
 		if (SscoPosManager.getInstance().isUsed()) {
 			SscoPosManager.getInstance().signOffResponse();
 		}
@@ -613,7 +613,7 @@ public class GdSigns extends Action {
 			tra.number = editNum(lCTL.pers, 8);
 			Itmdc.IDC_write('F', input.key > 0xFF ? 1 : 0, 0, tra.number, tra.cnt, tra.amt);
 			tblWrite();
-			panel.jrnPicture("PAUSE");
+			GdPos.panel.jrnPicture("PAUSE");
 			showHeader(false);
 			if (ctl.view > 0)
 				ElJrn.toggle();
@@ -666,7 +666,7 @@ public class GdSigns extends Action {
 				if (lCTL.read(0, ckr) > 0) {
 					if (lCTL.sts == 1) {
 						stsLine.init(Mnemo.getInfo(37)).upto(20, editKey(lCTL.reg, 3)).show(1);
-						if (panel.clearLink(Mnemo.getInfo(40), 0x23) < 2)
+						if (GdPos.panel.clearLink(Mnemo.getInfo(40), 0x23) < 2)
 							return 7;
 					}
 				}
@@ -720,7 +720,7 @@ public class GdSigns extends Action {
 				return 0;
 			if (ctl.block) {
 				logger.info("EOD blocked by instashop file: " + ctl.block);
-				panel.display(1, Mnemo.getInfo(122));
+				GdPos.panel.display(1, Mnemo.getInfo(122));
 				return 0;
 			}
 			GdMaint.hot_maint();
@@ -729,7 +729,7 @@ public class GdSigns extends Action {
 				if (ctl.lan == 0)
 					nbr = lLAN.ckr;
 
-				panel.display(1, Mnemo.getMenu(18));
+				GdPos.panel.display(1, Mnemo.getMenu(18));
 			} else if (ctl.lan == 0)
 				nbr = netio.eodPoll(ctl.reg_nbr);
 			if (nbr == 0)
@@ -883,7 +883,7 @@ public class GdSigns extends Action {
 					if (lREG.block[0].trans > 0)
 						continue;
 					stsLine.init(Mnemo.getText(1)).upto(20, editNum(lCTL.key, 3)).show(2);
-					panel.clearLink(Mnemo.getMenu(28), 0x01);
+					GdPos.panel.clearLink(Mnemo.getMenu(28), 0x01);
 					return 7;
 				}
 			else
@@ -897,14 +897,14 @@ public class GdSigns extends Action {
 					if (lREG.block[0].trans > 0)
 						continue;
 					stsLine.init(Mnemo.getText(3)).upto(20, editKey(lLAN.key, 3)).show(2);
-					panel.clearLink(Mnemo.getMenu(28), 0x01);
+					GdPos.panel.clearLink(Mnemo.getMenu(28), 0x01);
 					return 7;
 				}
 			if (sts < 0)
 				return 16;
 		}
 		if (ctl.lan < 3) {
-			panel.display(1, Mnemo.getMenu(0));
+			GdPos.panel.display(1, Mnemo.getMenu(0));
 			for (rec = 0; (sts = lLAN.read(++rec, sel)) > 0;) {
 				if (lLAN.type != 'R' && lLAN.type != 'C')
 					continue;
@@ -924,7 +924,7 @@ public class GdSigns extends Action {
 					continue;
 				mon.lan99 = rec;
 				stsLine.init(Mnemo.getInfo(37)).upto(20, editKey(lLAN.key, 3));
-				panel.clearLink(stsLine.toString(), 0x84);
+				GdPos.panel.clearLink(stsLine.toString(), 0x84);
 				mon.lan99 = 0;
 				if (lLAN.sts < 90)
 					return 23;

@@ -28,7 +28,7 @@ public class GdTndrs extends Action {
 
     static void tnd_symbol() {
         dspBmap = "TND_" + editNum(itm.tnd, 4);
-        panel.dspSymbol(tnd[itm.tnd].symbol);
+        GdPos.panel.dspSymbol(tnd[itm.tnd].symbol);
     }
 
     static int tnd_clear(int txt) {
@@ -40,7 +40,7 @@ public class GdTndrs extends Action {
 
             logger.info("ris: " + ris);
             if (ris > 0) {
-                panel.clearLink(Mnemo.getInfo(ris), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(ris), 1);
             }
             tnd_prompt();
             itm = itmOld;
@@ -494,7 +494,7 @@ public class GdTndrs extends Action {
                 }
                 if (sts == 0)
                     break;
-                panel.clearLink(Mnemo.getInfo(sts), 1);
+                GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
             }
         }
         if (itm.pos > 0)
@@ -534,7 +534,7 @@ public class GdTndrs extends Action {
                 if (tra.bal - itm.amt < 0) {
                     if (reg.find(10 + CreditNote.getOption(CreditNote.CREDITNOTEPRINT), 1) > 0) {
                         if (CreditNote.getOption(CreditNote.RETURN) > 0
-                                && panel.clearLink(Mnemo.getInfo(141), 3) > 1) {
+                                && GdPos.panel.clearLink(Mnemo.getInfo(141), 3) > 1) {
                             CreditNote.setAmount(itm.amt - tra.bal);
                             if ((sts = CreditNote.printText()) > 0) {
                                 event.nxt = event.alt;
@@ -669,7 +669,7 @@ public class GdTndrs extends Action {
                 && tra.amt >= PosGPE.getMinAmountToPrint()
                 && !PosGPE.getLastEptsReceiptData().getSignatureBitmap().isEmpty()) {
             logger.info("show message 133");
-            panel.clearLink(Mnemo.getInfo(133), 1);
+            GdPos.panel.clearLink(Mnemo.getInfo(133), 1);
         }
         if (itm.tnd == CreditNote.getOption(CreditNote.CREDITNOTEPRINT)) {
             itm.number = tmp_number;
@@ -1122,7 +1122,7 @@ public class GdTndrs extends Action {
 
                 logger.info("ris: " + ris);
                 if (ris > 0) {
-                    panel.clearLink(Mnemo.getInfo(ris), 1);
+                    GdPos.panel.clearLink(Mnemo.getInfo(ris), 1);
                 }
                 tnd_prompt();
                 itm = itmOld;
@@ -1320,7 +1320,7 @@ public class GdTndrs extends Action {
             logger.info("It's a verifone tender");
             if (!SscoPosManager.getInstance().isUsed()) {
                 oplLine.init(Mnemo.getText(81)).show(1);
-                panel.clearLink(Mnemo.getInfo(74), 2);
+                GdPos.panel.clearLink(Mnemo.getInfo(74), 2);
             }
             MarshallEftPlugin eftPlugin = (MarshallEftPlugin) eftPluginManager.getPlugin(tnd[itm.tnd].getType()+"");
             sts = eftPlugin.doTransaction(itm.pos, String.valueOf(ctl.tran));

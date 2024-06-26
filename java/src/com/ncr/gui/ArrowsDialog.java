@@ -1,13 +1,14 @@
 package com.ncr.gui;
 
-import com.ncr.ArsXmlParser;
-import com.ncr.GdPos;
-import com.ncr.GoToPosManager;
-import com.ncr.UtilLog4j;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import com.ncr.ArsXmlParser;
+import com.ncr.GdPos;
+import com.ncr.GoToPosManager;
+import com.ncr.UtilLog4j;
 
 public class ArrowsDialog extends JDialog {
 

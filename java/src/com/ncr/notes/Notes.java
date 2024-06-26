@@ -15,7 +15,7 @@ public abstract class Notes extends Action {
 			if (rNEW.write(rec) < 1)
 				return 16;
 		}
-		panel.dspNotes(0, null);
+		GdPos.panel.dspNotes(0, null);
 		DevIo.oplSignal(3, mon.snd_mon == null ? 0 : 1);
 		mon.alert = ERROR;
 		return 0;
@@ -37,11 +37,11 @@ public abstract class Notes extends Action {
 
 		if (ctl.lan > 2)
 			return showHelp();
-		panel.display(1, Mnemo.getMenu(63));
+		GdPos.panel.display(1, Mnemo.getMenu(63));
 		if (mon.rcv_mon != null) {
 			if (lCTL.find(mon.rcv_ckr) > 0)
-				panel.display(2, lCTL.text);
-			panel.clearLink(mon.rcv_msg, 2);
+				GdPos.panel.display(2, lCTL.text);
+			GdPos.panel.clearLink(mon.rcv_msg, 2);
 			return ack_note(mon.rcv_dsp);
 		}
 		input.prompt = Mnemo.getText(15);
@@ -161,7 +161,7 @@ public abstract class Notes extends Action {
 	}
 
 	public static void watch(int rec) {
-		SpyDlg dlg = (SpyDlg) panel.modal;
+		SpyDlg dlg = (SpyDlg) GdPos.panel.modal;
 		GdElJrn area = dlg.area;
 		int rows = area.rows;
 

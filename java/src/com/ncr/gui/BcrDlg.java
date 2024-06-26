@@ -1,5 +1,7 @@
 package com.ncr.gui;
 
+import com.ncr.GdPos;
+
 import java.awt.*;
 
 public class BcrDlg extends Modal {
@@ -13,15 +15,15 @@ public class BcrDlg extends Modal {
         super(title);
         for (int ind = 0; ind < info.length; ind++) {
             info[ind] = new GdLabel("", GdLabel.STYLE_HEADER);
-            //info[ind].setFont(panel.font20);
+            //info[ind].setFont(GdPos.panel.font20);
             info[ind].setEnabled(false);
         }
         add(Border.around(info[0], -4), BorderLayout.NORTH);
         add(area, BorderLayout.CENTER);
         add(Border.around(info[1], -4), BorderLayout.SOUTH);
-        bounds = panel.getParent();
-        if (bounds != panel.frame)
-            bounds = panel;
+        bounds = GdPos.panel.getParent();
+        if (bounds != GdPos.panel.frame)
+            bounds = GdPos.panel;
     }
 
     public void add(String text, String name) {
@@ -33,7 +35,7 @@ public class BcrDlg extends Modal {
         lbl.setText(text);
         pnl.add(lbl = new GdLabel("", GdLabel.STYLE_HEADER), BorderLayout.SOUTH);
         lbl.setEnabled(false);
-        //lbl.setFont(panel.font40);
+        //lbl.setFont(GdPos.panel.font40);
     }
 
     public void setText(int ind, String text, boolean alert) {

@@ -25,7 +25,6 @@
       <root url="jar://$PROJECT_DIR$/lib/ToneTag_FAB ECR_Integration_V2.14.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/EcrObject.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/mada_pro_v1.0.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/jpos1135.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/NCRFrequentShopper.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/unirest-java-2.3.14.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/NCRJavaPOSClasses.jar!/" />
@@ -38,6 +37,7 @@
       <root url="jar://$PROJECT_DIR$/lib/touchmenuinterface.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/ArsGraphic.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/ArsGraphicInterface.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/JavaPOSControls.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

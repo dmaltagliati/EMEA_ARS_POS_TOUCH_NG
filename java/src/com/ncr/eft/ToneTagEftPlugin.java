@@ -118,7 +118,7 @@ public class ToneTagEftPlugin extends GenericEftPlugin {
 
                 resultResponse.setMessage(errorCodeMap.get("TimeoutMsg").toString());
                 resultCode = 2000;
-                panel.clearLink(resultResponse.getMessage(), 1);
+                GdPos.panel.clearLink(resultResponse.getMessage(), 1);
                 logger.info("message display");
             } else {
                 logger.info("complete: " + statusCode);
@@ -151,7 +151,7 @@ public class ToneTagEftPlugin extends GenericEftPlugin {
 
                     logger.info("AlshayaEftPlugin - resultResponse error code: " + resultResponse);
                     resultCode = statusCode;
-                    panel.clearLink(resultResponse.getMessage(), 1);
+                    GdPos.panel.clearLink(resultResponse.getMessage(), 1);
                 }
             }
         } catch(Exception e) {

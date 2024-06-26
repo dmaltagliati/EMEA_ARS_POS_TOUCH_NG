@@ -7,8 +7,8 @@ class GdSuper extends Action {
 	static int sel_ckrnbr(int txt) {
 		if (ctl.lan == 0)
 			lCTL.update();
-		for (int sts;; panel.clearLink(Mnemo.getInfo(sts), 1)) {
-			panel.display(1, Mnemo.getMenu(txt));
+		for (int sts;; GdPos.panel.clearLink(Mnemo.getInfo(sts), 1)) {
+			GdPos.panel.display(1, Mnemo.getMenu(txt));
 			input.prompt = Mnemo.getText(1);
 			input.init(0x00, 3, 3, 0);
 			SelDlg dlg = new SelDlg(Mnemo.getText(22));
@@ -94,7 +94,7 @@ class GdSuper extends Action {
 				}
 				if (input.key == input.CLEAR)
 					continue;
-				panel.clearLink(Mnemo.getInfo(sts), 1);
+				GdPos.panel.clearLink(Mnemo.getInfo(sts), 1);
 			}
 		report_hdr(ckr, ac);
 		if (tra.comm >= 0xf00) {
@@ -116,7 +116,7 @@ class GdSuper extends Action {
 
 		if (lfs-- > 0) {
 			while (lfs-- > 0)
-				panel.print(ELJRN + 2, "");
+				GdPos.panel.print(ELJRN + 2, "");
 			prtLine.book(station);
 		}
 	}
@@ -145,7 +145,7 @@ class GdSuper extends Action {
 		text = center(text, 20, '*');
 		prtLine.init(rightFill(text, 40, '*')).book(2);
 		if (tra.code == 23)
-			panel.display(1, text);
+			GdPos.panel.display(1, text);
 	}
 
 	static void report_prt(int flag, String text, int rate, int trans, int items, long total) {

@@ -1,5 +1,6 @@
 package com.ncr;
 
+import java.awt.event.ActionEvent;
 import java.io.*;
 import javax.comm.*;
 
@@ -90,9 +91,27 @@ public class Device extends FmtIo {
 		return null;
 	}
 
+//	public static void postInput(String cmd, byte[] data) {
+//		if (data != null)
+//			cmd += new String(data);
+//		gui.postAction(cmd);
+//	}
+
 	public static void postInput(String cmd, byte[] data) {
-		if (data != null)
+
+		if (data != null) {
 			cmd += new String(data);
-		gui.postAction(cmd);
+		}
+		if (cmd.startsWith("SELECT")) {
+			UtilLog4j.logDebug(DevIo.class, "cmd=" + cmd);
+		} else {
+			UtilLog4j.logInformation(DevIo.class, "cmd=" + cmd);
+		}
+		ActionEvent e = new ActionEvent(GdPos.panel.idle, ActionEvent.ACTION_PERFORMED, cmd);
+		if (cmd.startsWith("CODE")) {
+			GdPos.panel.innerList.add(e);
+		}
+		GdPos.panel.queue.postEvent(e);
+
 	}
 }
